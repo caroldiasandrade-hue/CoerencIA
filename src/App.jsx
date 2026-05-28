@@ -2,9 +2,9 @@ import { useState, useEffect, useCallback } from "react";
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 // Substitua pelos seus dados do Supabase
-const SUPABASE_URL = "https://SEU_PROJETO.supabase.co";
-const SUPABASE_KEY = "SUA_CHAVE_ANONIMA_SUPABASE";
-const ADMIN_PASSWORD = "admin123"; // idealmente via env var
+const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
+const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_KEY;
+const ADMIN_PASSWORD = import.meta.env.VITE_ADMIN_PASSWORD;
 
 // ─── SUPABASE SQL (execute no Supabase Dashboard → SQL Editor) ───────────────
 /*
