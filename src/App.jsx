@@ -660,41 +660,20 @@ export default function App() {
       setHistorico(todasSess||[]);
     } catch { /* dados locais disponíveis */ }
 
-    // Gerar diagnóstico via Claude
+    // Gerar diagnóstico via função serverless
     try {
-      const prompt = `Você é um especialista em saúde do trabalhador, com linguagem empática e acessível. Gere um relatório personalizado para este enfermeiro(a):
-
-PERFIL: Setor: ${perfil?.setor||"não informado"}, Faixa etária: ${perfil?.idade||"-"}, Sexo: ${perfil?.sexo||"-"}, Categoria: ${perfil?.categoria||"-"}, Turno: ${perfil?.turno||"-"}, Tempo na profissão: ${perfil?.tempo_profissao||"-"}.
-
-BEM-ESTAR (1=Muito ruim a 5=Muito boa): Alimentação: ${bemestarAtual?.alimentacao}, Sono: ${bemestarAtual?.sono}, Saúde mental: ${bemestarAtual?.saude_mental}, Convívio familiar: ${bemestarAtual?.convivio_familiar}, Rede de apoio: ${bemestarAtual?.rede_apoio}, Lazer: ${bemestarAtual?.lazer}, Atividade física: ${bemestarAtual?.atividade_fisica}, Satisfação com a vida: ${bemestarAtual?.satisfacao_vida}.
-
-SOC-13: Compreensibilidade: ${soc.compreensibilidade}/49, Maneabilidade: ${soc.maneabilidade}/35, Significância: ${soc.significancia}/7, Total: ${soc.soc_total}/91 — ${soc.classificacao}. Dimensão prioritária: ${soc.dimensao_foco}.
-
-Escreva um relatório com esta estrutura exata:
-
-1. INTRODUÇÃO (2 frases acolhedoras e motivadoras)
-2. SEUS RESULTADOS (interprete os escores em linguagem acessível, sem citar nomes técnicos de escalas)
-3. PONTO DE ATENÇÃO (explique o impacto da dimensão "${soc.dimensao_foco}" na vida desta pessoa)
-4. ESTRATÉGIAS PRÁTICAS (exatamente 3 estratégias, cada uma com: Nome | Como fazer | Por que ajuda)
-5. PRÓXIMO PASSO (1 frase encorajadora)
-
-Seja caloroso, direto e prático. Máximo 450 palavras.`;
-
-      const resp = await fetch("https://api.anthropic.com/v1/messages",{
-        method:"POST",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-          model:"claude-sonnet-4-20250514",
-          max_tokens:1000,
-          messages:[{role:"user",content:prompt}]
-        })
+      const resp = await fetch("/api/diagnostico", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ perfil, soc, bemestar: bemestarAtual }),
       });
       const data = await resp.json();
-      const diag = data.content?.map(b=>b.text||"").join("")||"Diagnóstico não disponível.";
+      const diag = data.diagnostico || "Diagnóstico não disponível.";
       setDiagnostico(diag);
       if (sessaoId) await sb("PATCH",`sessoes?id=eq.${sessaoId}`,{diagnostico:diag}).catch(()=>{});
     } catch {
       setDiagnostico("Não foi possível gerar o diagnóstico personalizado no momento. Seus dados foram salvos com sucesso.");
+    }
     }
   }
 
