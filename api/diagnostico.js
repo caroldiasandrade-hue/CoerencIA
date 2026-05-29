@@ -31,7 +31,7 @@ Escreva em português brasileiro. Seja caloroso, direto e prático. Máximo 450 
         "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "llama3-70b-8192",
+        model: "llama-3.3-70b-versatile",
         max_tokens: 1000,
         temperature: 0.7,
         messages: [
@@ -48,11 +48,11 @@ Escreva em português brasileiro. Seja caloroso, direto e prático. Máximo 450 
     });
 
     const data = await response.json();
-    
+
     if (data.error) {
       return res.status(500).json({ error: data.error.message });
     }
-    
+
     const texto = data.choices?.[0]?.message?.content || "Diagnóstico não disponível.";
     res.status(200).json({ diagnostico: texto });
   } catch (err) {
