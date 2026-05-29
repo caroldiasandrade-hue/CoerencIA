@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from "react"; 
 
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const SUPABASE_URL = import.meta.env.VITE_SUPABASE_URL;
