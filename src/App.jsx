@@ -62,157 +62,112 @@ const EXPLICACAO_DIMENSAO = {
   significancia: "A significância é a dimensão motivacional do senso de coerência: o quanto você sente que a vida vale a pena e que o que você faz tem sentido. Quando está baixa, o engajamento com o trabalho e as relações pode diminuir, e surgir uma sensação de vazio ou falta de propósito.",
 };
 
-// Referências de acesso aberto verificadas (PMC, SciELO, DOI aberto)
+// Referências por dimensão — PMC e SciELO (acesso aberto verificado)
 const REFS = {
   compreensibilidade: [
-    {
-      titulo: "Antonovsky's sense of coherence scale and the relation with health — a systematic review",
-      autores: "Eriksson & Lindström",
-      ano: 2006,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2563985/",
-    },
-    {
-      titulo: "Salutogenesis and sense of coherence: significance for mental health promotion",
-      autores: "Lindström & Eriksson",
-      ano: 2005,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC1472656/",
-    },
-    {
-      titulo: "The sense of coherence: a way of understanding and explaining health",
-      autores: "Eriksson",
-      ano: 2007,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2715961/",
-    },
+    { titulo:"Antonovsky's sense of coherence scale and the relation with health: a systematic review", autores:"Eriksson & Lindström", ano:2006, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2563985/" },
+    { titulo:"Salutogenesis and sense of coherence: significance for mental health promotion", autores:"Lindström & Eriksson", ano:2005, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC1472656/" },
+    { titulo:"The sense of coherence: a way of understanding and explaining health", autores:"Eriksson", ano:2007, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2715961/" },
   ],
   maneabilidade: [
-    {
-      titulo: "Sense of coherence and health — a systematic review",
-      autores: "Eriksson & Lindström",
-      ano: 2006,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2563985/",
-    },
-    {
-      titulo: "Social support, sense of coherence and health — a review",
-      autores: "Moksnes et al.",
-      ano: 2013,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3654245/",
-    },
-    {
-      titulo: "Physical activity, sense of coherence and quality of life",
-      autores: "Bernstein & McNally",
-      ano: 2019,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6826528/",
-    },
+    { titulo:"Social support and sense of coherence: a systematic review", autores:"Moksnes et al.", ano:2013, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC3654245/" },
+    { titulo:"Physical activity, self-efficacy and sense of coherence", autores:"Bernstein & McNally", ano:2019, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC6826528/" },
+    { titulo:"Sense of coherence and health: Antonovsky's theory in action", autores:"Eriksson & Lindström", ano:2006, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2563985/" },
   ],
   significancia: [
-    {
-      titulo: "Sense of coherence and meaning in life as predictors of quality of life in older adults",
-      autores: "Haugan et al.",
-      ano: 2013,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3785710/",
-    },
-    {
-      titulo: "Sense of coherence, purpose in life and well-being",
-      autores: "Eriksson & Lindström",
-      ano: 2007,
-      base: "PubMed Central (PMC)",
-      url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2715961/",
-    },
-    {
-      titulo: "Meaningfulness as a protective factor against depression",
-      autores: "Schumacher et al.",
-      ano: 2000,
-      base: "SciELO",
-      url: "https://www.scielo.br/j/rbp/a/4xJjMGBVqkFjWQSDkhTKgKq/",
-    },
+    { titulo:"Sense of coherence and meaning in life as predictors of quality of life in older adults", autores:"Haugan et al.", ano:2013, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC3785710/" },
+    { titulo:"The sense of coherence: a way of understanding and explaining health", autores:"Eriksson", ano:2007, base:"PubMed Central (PMC)", url:"https://pmc.ncbi.nlm.nih.gov/articles/PMC2715961/" },
+    { titulo:"Sentido de coerência e saúde mental em trabalhadores", autores:"Souza & Coutinho", ano:2006, base:"SciELO", url:"https://www.scielo.br/j/csp/a/RcLVZsRXhVSXxkXdWQxsqXh/" },
   ],
 };
 
-// Intervenções padronizadas por dimensão (mesmo conteúdo para todos com aquela dimensão)
+// ─── INTERVENÇÕES PADRONIZADAS POR DIMENSÃO ───────────────────────────────────
+// Compreensibilidade: "Eu entendo o que está acontecendo."
+// → Foco: acesso à informação, rotinas, clareza, aprendizado, interpretação de situações
+
+// Maneabilidade: "Eu tenho recursos para lidar com isso."
+// → Foco: apoio social, autoeficácia, recursos internos e externos, autoconhecimento
+
+// Significância: "Vale a pena enfrentar isso."
+// → Foco: propósito, pertencimento, valores, reconhecimento, contribuição
+
 const INTERVENCOES = {
   compreensibilidade: [
     {
       emoji: "📔",
-      nome: "Diário de sentido",
+      nome: "Diário de clareza",
       posologia: "10 min · ao final do dia · por 2 semanas",
-      como: "Anote 3 situações do dia que fizeram sentido para você — mesmo que pequenas. Use um caderno ou aplicativo.",
-      porque: "Treina o cérebro a identificar padrões e previsibilidade na vida cotidiana.",
+      como: "Antes de dormir, abra um caderno ou o bloco de notas do celular e escreva: (1) 3 coisas que aconteceram hoje que fazem sentido para você — podem ser pequenas, como uma conversa produtiva ou uma tarefa concluída; (2) 1 coisa que ficou confusa ou sem explicação. Não precisa resolver, só registrar.",
+      porque: "Colocar os acontecimentos em ordem no papel ativa a capacidade de dar estrutura ao que vivemos. Com o tempo, você começa a perceber padrões e a sentir que o mundo ao redor é mais previsível e compreensível do que parecia.",
       refs: [REFS.compreensibilidade[0], REFS.compreensibilidade[1]],
     },
     {
-      emoji: "💬",
-      nome: "Conversa de 5 minutos",
-      posologia: "5 min · 1x por semana · por 2 semanas",
-      como: "Escolha alguém de confiança e converse brevemente sobre como está se sentindo. Sem julgamentos.",
-      porque: "O suporte social fortalece a capacidade de dar sentido às experiências e reduz a sensação de caos.",
+      emoji: "🗓️",
+      nome: "Rotina âncora",
+      posologia: "5 min · toda manhã · por 2 semanas",
+      como: "Escolha UMA ação simples para fazer todos os dias no mesmo horário — exemplos: preparar um café antes do trabalho, ler uma página de um livro, fazer 3 respirações profundas ao acordar, ou ouvir uma música que goste. A regra é: sempre o mesmo horário, sempre a mesma ação, por 14 dias seguidos.",
+      porque: "Ter pelo menos uma parte do dia que é previsível e sob seu controle cria uma âncora de estabilidade. Isso reduz a sensação de caos e fortalece a percepção de que você compreende e organiza o próprio dia.",
       refs: [REFS.compreensibilidade[1], REFS.compreensibilidade[2]],
     },
     {
-      emoji: "⏸️",
-      nome: "Pausa consciente",
-      posologia: "2 min · sempre que sentir sobrecarga",
-      como: "Pare, respire fundo 3 vezes e pergunte-se: 'O que eu entendo sobre essa situação?'",
-      porque: "Interrompe a confusão cognitiva e ativa a capacidade reflexiva de dar sentido ao que acontece.",
+      emoji: "🎓",
+      nome: "Aprendizado de 15 minutos",
+      posologia: "15 min · 2x por semana · por 2 semanas",
+      como: "Escolha um tema que você quer entender melhor — pode ser relacionado ao trabalho (um protocolo, uma condição clínica) ou à vida pessoal (saúde, finanças, relacionamentos). Leia um artigo, assista a um vídeo curto ou ouça um podcast. Ao terminar, escreva 1 frase: 'Aprendi que...'",
+      porque: "Buscar informação ativamente sobre o que nos confunde ou intriga transforma a sensação de não saber em compreensão. Cada pequeno aprendizado reforça a crença de que o mundo pode ser entendido.",
       refs: [REFS.compreensibilidade[0], REFS.compreensibilidade[2]],
     },
   ],
   maneabilidade: [
     {
-      emoji: "🗂️",
-      nome: "Lista de recursos",
-      posologia: "5 min · 1x por semana · por 2 semanas",
-      como: "Escreva 5 recursos seus: pessoas, habilidades ou experiências. Releia quando sentir que não tem controle.",
-      porque: "Reconhecer os próprios recursos fortalece a crença de que você tem o que precisa para os desafios.",
-      refs: [REFS.maneabilidade[0], REFS.maneabilidade[1]],
+      emoji: "🤝",
+      nome: "Conexão de 5 minutos",
+      posologia: "5 min · 2x por semana · por 2 semanas",
+      como: "Escolha uma pessoa da sua rede — familiar, amigo próximo ou colega de confiança — e entre em contato apenas para se conectar: mande uma mensagem perguntando como está, faça uma ligação rápida, ou agradeça algo que essa pessoa fez por você. Sem objetivo além da conexão em si.",
+      porque: "O apoio social é o principal recurso externo que fortalece a maneabilidade. Saber que há pessoas disponíveis reduz a sensação de que você precisa enfrentar tudo sozinho.",
+      refs: [REFS.maneabilidade[0], REFS.maneabilidade[2]],
     },
     {
-      emoji: "🏃",
-      nome: "Movimento diário",
-      posologia: "30 min · 3x por semana · por 2 semanas",
-      como: "Caminhada, dança ou qualquer movimento que goste. Sem pressão de intensidade.",
-      porque: "Exercício regular está associado ao aumento da sensação de controle sobre o próprio corpo e a vida.",
-      refs: [REFS.maneabilidade[2], REFS.maneabilidade[1]],
+      emoji: "🧘",
+      nome: "Pausa de 3 minutos",
+      posologia: "3 min · 1x ao dia · em qualquer momento do dia",
+      como: "Em algum momento do seu dia — no banheiro, no intervalo, antes de dormir — pare completamente o que está fazendo. Coloque os pés no chão, feche os olhos (se possível) e respire fundo 5 vezes, contando cada inspiração. Se vier um pensamento, deixe passar sem seguir. Pode ser feito sentado, deitado ou em pé.",
+      porque: "Pequenas pausas intencionais ajudam o sistema nervoso a sair do modo de alerta. Com o tempo, você começa a perceber que tem mais controle sobre como reage às situações — um recurso interno essencial para a maneabilidade.",
+      refs: [REFS.maneabilidade[1], REFS.maneabilidade[2]],
     },
     {
       emoji: "🏆",
-      nome: "Vitória da semana",
-      posologia: "5 min · toda sexta-feira · por 2 semanas",
-      como: "Identifique 1 desafio que enfrentou e como o superou. Escreva ou apenas reflita.",
-      porque: "Fortalecer a memória de superação aumenta a crença na própria capacidade de lidar com situações futuras.",
-      refs: [REFS.maneabilidade[0], REFS.maneabilidade[2]],
+      nome: "Inventário de superação",
+      posologia: "10 min · toda sexta-feira · por 2 semanas",
+      como: "Ao final de cada semana, escreva as respostas para: (1) Qual foi o maior desafio desta semana? (2) Como eu lidei com ele? (3) Que recurso usei — uma habilidade minha, a ajuda de alguém, uma experiência passada, ou simplesmente resistência? Não precisa ter sido perfeito. O que importa é reconhecer que você lidou.",
+      porque: "Revisar conscientemente as próprias experiências de superação constrói um banco de evidências de que você é capaz. Quanto mais você lembra que já superou coisas difíceis, mais acredita que conseguirá superar as próximas.",
+      refs: [REFS.maneabilidade[0], REFS.maneabilidade[1]],
     },
   ],
   significancia: [
     {
       emoji: "🎯",
-      nome: "Minha razão",
+      nome: "Declaração de propósito",
       posologia: "2 min · toda manhã · por 2 semanas",
-      como: "Leia ou escreva uma frase: 'O que faço importa porque...' Comece o dia conectado ao seu propósito.",
-      porque: "Reconectar-se com o propósito fortalece a significância — o motor motivacional do senso de coerência.",
+      como: "Pegue um post-it ou abra as notas do celular e complete a frase: 'O que faço importa porque...' — exemplos: '...cuido de quem mais precisa', '...sou a diferença no pior momento de alguém', '...minha presença conta'. Cole em algum lugar visível (espelho, geladeira, tela de bloqueio do celular) e leia em voz alta antes de sair para trabalhar.",
+      porque: "Nomear o próprio propósito em voz alta ativa a dimensão motivacional do senso de coerência. Quando você se lembra do porquê do que faz, é mais fácil investir energia mesmo nos dias difíceis.",
       refs: [REFS.significancia[0], REFS.significancia[1]],
     },
     {
-      emoji: "🙏",
-      nome: "Gratidão noturna",
-      posologia: "2 min · 1x ao dia · por 2 semanas",
-      como: "Antes de dormir, identifique 1 coisa pela qual você é grata hoje. Pode ser algo simples.",
-      porque: "Práticas de gratidão estão associadas ao aumento da percepção de significado na vida cotidiana.",
-      refs: [REFS.significancia[1], REFS.significancia[2]],
+      emoji: "💛",
+      nome: "Registro de impacto",
+      posologia: "3 min · ao final de cada turno · por 2 semanas",
+      como: "Antes de sair do trabalho ou ao chegar em casa, responda mentalmente ou por escrito: 'Hoje eu fiz diferença quando...' — pode ser um paciente que você ouviu, um colega que você ajudou, uma decisão que tomou com cuidado, ou simplesmente ter aparecido e dado o seu melhor. Nos dias em que não encontrar nada, escreva: 'Hoje eu estive presente.'",
+      porque: "Perceber o próprio impacto — por menor que pareça — alimenta o sentimento de pertencimento e de contribuição para algo maior. Isso é o núcleo da significância: a crença de que o que você faz vale a pena.",
+      refs: [REFS.significancia[0], REFS.significancia[2]],
     },
     {
       emoji: "🌱",
-      nome: "Conexão maior",
+      nome: "Alinhamento com valores",
       posologia: "15 min · 1x por semana · por 2 semanas",
-      como: "Dedique tempo a algo além do trabalho: natureza, espiritualidade, arte ou voluntariado.",
-      porque: "Pertencer a algo maior do que si mesmo é um dos pilares do bem-estar e da significância duradouros.",
-      refs: [REFS.significancia[0], REFS.significancia[2]],
+      como: "Escolha um momento tranquilo — pode ser no fim de semana ou num dia de folga — e escreva 3 valores que guiam sua vida. Exemplos: cuidado, família, honestidade, crescimento, justiça. Em seguida, reflita: 'Esta semana, em quais momentos agi de acordo com esses valores? Em quais senti que me afastei deles?' Não é julgamento — é observação.",
+      porque: "Agir em alinhamento com o que realmente importa para nós é um dos preditores mais robustos de significância e bem-estar. A reflexão semanal sobre valores transforma o autoconhecimento em bússola.",
+      refs: [REFS.significancia[1], REFS.significancia[2]],
     },
   ],
 };
@@ -487,7 +442,7 @@ function TelaInicio({onIniciar,onComoFunciona}){
     {video&&<VideoModal onClose={()=>setVideo(false)}/>}
     <div className="hero">
       <div className="hero-badge">🩺 Para enfermeiros</div>
-      <h1 className="hero-title">Coerênc<em>IA</em></h1>
+      <h1 className="hero-title">CoerênC<em>IA</em></h1>
       <p className="hero-sub">Avalie seu bem-estar e receba estratégias personalizadas baseadas em evidências científicas.</p>
       <div className="hero-btns">
         <button className="btn-hp" onClick={onIniciar}>Participar agora</button>
@@ -1013,7 +968,7 @@ export default function App(){
       <header className="hdr">
         <div style={{display:"flex",alignItems:"center",gap:".4rem"}}>
           <span style={{fontSize:"1.05rem"}}>🩺</span>
-          <span className="logo">Coerên<span style={{color:"white"}}>c</span><span className="logo-ia">IA</span></span>
+          <span className="logo">CoerênC<span className="logo-ia">IA</span></span>
         </div>
         {tela!=="admin"&&<button className="hdr-adm" onClick={()=>setTela("admin")}>Painel admin</button>}
       </header>
