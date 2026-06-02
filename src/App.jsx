@@ -69,21 +69,21 @@ const REFS = {
       titulo: "Antonovsky's sense of coherence scale and the relation with health — a systematic review",
       autores: "Eriksson & Lindström",
       ano: 2006,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2563985/",
     },
     {
       titulo: "Salutogenesis and sense of coherence: significance for mental health promotion",
       autores: "Lindström & Eriksson",
       ano: 2005,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC1472656/",
     },
     {
       titulo: "The sense of coherence: a way of understanding and explaining health",
       autores: "Eriksson",
       ano: 2007,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2715961/",
     },
   ],
@@ -92,21 +92,21 @@ const REFS = {
       titulo: "Sense of coherence and health — a systematic review",
       autores: "Eriksson & Lindström",
       ano: 2006,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2563985/",
     },
     {
       titulo: "Social support, sense of coherence and health — a review",
       autores: "Moksnes et al.",
       ano: 2013,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3654245/",
     },
     {
       titulo: "Physical activity, sense of coherence and quality of life",
       autores: "Bernstein & McNally",
       ano: 2019,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC6826528/",
     },
   ],
@@ -115,21 +115,21 @@ const REFS = {
       titulo: "Sense of coherence and meaning in life as predictors of quality of life in older adults",
       autores: "Haugan et al.",
       ano: 2013,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC3785710/",
     },
     {
       titulo: "Sense of coherence, purpose in life and well-being",
       autores: "Eriksson & Lindström",
       ano: 2007,
-      base: "PubMed Central (PMC) — Acesso aberto",
+      base: "PubMed Central (PMC)",
       url: "https://pmc.ncbi.nlm.nih.gov/articles/PMC2715961/",
     },
     {
       titulo: "Meaningfulness as a protective factor against depression",
       autores: "Schumacher et al.",
       ano: 2000,
-      base: "SciELO — Acesso aberto",
+      base: "SciELO",
       url: "https://www.scielo.br/j/rbp/a/4xJjMGBVqkFjWQSDkhTKgKq/",
     },
   ],
@@ -487,7 +487,7 @@ function TelaInicio({onIniciar,onComoFunciona}){
     {video&&<VideoModal onClose={()=>setVideo(false)}/>}
     <div className="hero">
       <div className="hero-badge">🩺 Para enfermeiros</div>
-      <h1 className="hero-title">Coerên<em>CIA</em></h1>
+      <h1 className="hero-title">Coerênc<em>IA</em></h1>
       <p className="hero-sub">Avalie seu bem-estar e receba estratégias personalizadas baseadas em evidências científicas.</p>
       <div className="hero-btns">
         <button className="btn-hp" onClick={onIniciar}>Participar agora</button>
@@ -534,7 +534,7 @@ function TelaComoFunciona({onVoltar,onIniciar}){
         {n:2,t:"Perfil (só no 1º acesso)",d:"Dados sociodemográficos coletados uma vez. Nas próximas visitas você vai direto ao questionário."},
         {n:3,t:"Avaliação de bem-estar",d:"8 dimensões avaliadas de 1 a 5. Rápido e intuitivo."},
         {n:4,t:"Questionário SOC-13",d:"13 questões sobre como você percebe e lida com situações da vida."},
-        {n:5,t:"Diagnóstico + intervenções",d:"Diagnóstico gerado por IA com 3 estratégias padronizadas para sua dimensão prioritária, com referências científicas de acesso aberto."},
+        {n:5,t:"Diagnóstico + intervenções",d:"Diagnóstico gerado por IA com 3 estratégias padronizadas para sua dimensão prioritária."},
         {n:6,t:"Retorno após intervenção",d:"Semanas depois, você responde novamente para comparar sua evolução."},
       ].map(s=><div className="step-item" key={s.n}>
         <div className="step-n">{s.n}</div>
@@ -723,7 +723,7 @@ function TelaRetorno({onContinuar}){
   </>;
 }
 
-function TelaResultado({soc,socAnterior,diagnostico,historico,onRetestar,onFeedback}){
+function TelaResultado({soc,socAnterior,diagnostico,historico,onRetestar,onFeedback,isRetorno}){
   const cc={Alto:"b-alto",Médio:"b-medio",Baixo:"b-baixo"}[soc.classificacao]||"b-medio";
   const intervs=INTERVENCOES[soc.dimensao_foco]||INTERVENCOES.significancia;
   const explDim=EXPLICACAO_DIMENSAO[soc.dimensao_foco];
@@ -765,19 +765,19 @@ function TelaResultado({soc,socAnterior,diagnostico,historico,onRetestar,onFeedb
     </div>}
 
     <div className="card">
-      <div className="eyebrow">Diagnóstico</div>
-      <h2 className="card-title">Sua Avaliação</h2>
-      {explDim&&<div className="dim-box">
+      <div className="eyebrow">{isRetorno?"Relatório comparativo":"Diagnóstico"}</div>
+      <h2 className="card-title">{isRetorno?"Sua Evolução":"Sua Avaliação"}</h2>
+      {!isRetorno&&explDim&&<div className="dim-box">
         <h4>🔍 Sobre a {soc.dimensao_foco}</h4>
         <p>{explDim}</p>
       </div>}
       {diagnostico?<DiagText text={diagnostico}/>:<div className="spin"/>}
     </div>
 
-    <div className="card">
+    {!isRetorno&&<div className="card">
       <div className="eyebrow">Intervenções sugeridas</div>
       <h2 className="card-title">Suas Estratégias</h2>
-      <p className="card-body">3 estratégias padronizadas para fortalecer sua <strong style={{textTransform:"capitalize"}}>{soc.dimensao_foco}</strong>. Pratique ao longo das próximas 2 semanas.</p>
+      <p className="card-body">3 estratégias para fortalecer sua <strong style={{textTransform:"capitalize"}}>{soc.dimensao_foco}</strong>. Pratique ao longo das próximas 2 semanas.</p>
       {intervs.map((iv,i)=><div className="int-card" key={i}>
         <div className="int-nome">{iv.emoji} {iv.nome}</div>
         <div className="int-pos">⏱ {iv.posologia}</div>
@@ -786,7 +786,7 @@ function TelaResultado({soc,socAnterior,diagnostico,historico,onRetestar,onFeedb
         <div className="int-lbl vd">Por que ajuda</div>
         <div className="int-txt">{iv.porque}</div>
         <div className="int-refs">
-          <div className="int-refs-ttl">📚 Saiba mais — acesso aberto</div>
+          <div className="int-refs-ttl">📚 Saiba mais</div>
           {iv.refs.map((ref,j)=><div className="int-ref" key={j}>
             <div className="int-ref-t">{ref.titulo}</div>
             <div className="int-ref-m">{ref.autores} ({ref.ano}) · {ref.base}</div>
@@ -794,11 +794,12 @@ function TelaResultado({soc,socAnterior,diagnostico,historico,onRetestar,onFeedb
           </div>)}
         </div>
       </div>)}
-    </div>
+    </div>}
 
     <div style={{padding:"0 1.25rem 1rem",display:"flex",flexDirection:"column",gap:".45rem"}}>
       <button className="btn btn-s btn-full" onClick={onFeedback}>⭐ Avaliar o aplicativo</button>
-      <button className="btn btn-p btn-full" onClick={onRetestar}>↺ Refazer avaliação</button>
+      {!isRetorno&&<button className="btn btn-p btn-full" onClick={onRetestar}>↺ Refazer avaliação</button>}
+      {isRetorno&&<button className="btn btn-p btn-full" onClick={onFeedback}>Encerrar participação →</button>}
     </div>
   </>;
 }
@@ -994,7 +995,7 @@ export default function App(){
       setHistorico(todasSess||[]);
     }catch{}
     try{
-      const resp=await fetch("/api/diagnostico",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({perfil,soc,bemestar:bemestarAtual})});
+      const resp=await fetch("/api/diagnostico",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({perfil,soc,bemestar:bemestarAtual,socAnterior,isRetorno:!!socAnterior})});
       const data=await resp.json();
       const diag=data.diagnostico||"Diagnóstico não disponível.";
       setDiagnostico(diag);
@@ -1012,7 +1013,7 @@ export default function App(){
       <header className="hdr">
         <div style={{display:"flex",alignItems:"center",gap:".4rem"}}>
           <span style={{fontSize:"1.05rem"}}>🩺</span>
-          <span className="logo">Coerên<span className="logo-ia">CIA</span></span>
+          <span className="logo">Coerên<span style={{color:"white"}}>c</span><span className="logo-ia">IA</span></span>
         </div>
         {tela!=="admin"&&<button className="hdr-adm" onClick={()=>setTela("admin")}>Painel admin</button>}
       </header>
@@ -1027,7 +1028,7 @@ export default function App(){
         {!loading&&tela==="retorno"&&<TelaRetorno onContinuar={handleRetorno}/>}
         {!loading&&tela==="bemestar"&&<TelaBemestar onSalvar={v=>{setBemestarAtual(v);setTela("soc");}}/>}
         {!loading&&tela==="soc"&&<TelaSOC respostas={respostas} pergAtual={pergAtual} onChange={(n,v)=>setRespostas(r=>({...r,[n]:v}))} onNext={()=>{if(pergAtual<12)setPergAtual(p=>p+1);else handleFinalizarSOC();}} onPrev={()=>setPergAtual(p=>p-1)}/>}
-        {tela==="resultado"&&resultadoSOC&&<TelaResultado soc={resultadoSOC} socAnterior={socAnterior} diagnostico={diagnostico} historico={historico} onRetestar={handleRetestar} onFeedback={()=>setTela("feedback")}/>}
+        {tela==="resultado"&&resultadoSOC&&<TelaResultado soc={resultadoSOC} socAnterior={socAnterior} diagnostico={diagnostico} historico={historico} onRetestar={handleRetestar} onFeedback={()=>setTela("feedback")} isRetorno={!!socAnterior}/>}
         {tela==="feedback"&&<TelaFeedback onSalvar={()=>setTela("agradecimento")} onPular={()=>setTela("agradecimento")}/>}
         {tela==="agradecimento"&&<TelaAgradecimento onVoltar={()=>setTela("inicio")}/>}
         {tela==="admin"&&<TelaAdmin onVoltar={()=>setTela("inicio")}/>}
