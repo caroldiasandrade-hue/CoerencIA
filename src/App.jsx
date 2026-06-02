@@ -49,64 +49,64 @@ function calcularSOC(respostas) {
   const man  = [2,4,9,10,12].reduce((s,i)=>s+(r[i]||0),0);
   const sig  = [7].reduce((s,i)=>s+(r[i]||0),0);
   const total = comp+man+sig;
-  const props = {compreensibilidade:comp/49,maneabilidade:man/35,significancia:sig/7};
+  const props = {compreensibilidade:comp/49, maneabilidade:man/35, significancia:sig/7};
   const foco = Object.entries(props).sort((a,b)=>a[1]-b[1])[0][0];
   const classif = (total/91)>=0.67?"Alto":(total/91)>=0.34?"Médio":"Baixo";
-  return {compreensibilidade:comp,maneabilidade:man,significancia:sig,soc_total:total,classificacao:classif,dimensao_foco:foco};
+  return {compreensibilidade:comp, maneabilidade:man, significancia:sig, soc_total:total, classificacao:classif, dimensao_foco:foco};
 }
 
-// Referências científicas por dimensão
-const REFERENCIAS = {
+// Referências científicas
+const REFS = {
   compreensibilidade: [
-    { titulo: "Sense of coherence and psychological well-being: A systematic review", autores: "Eriksson & Lindström", ano: 2006, base: "PubMed/MEDLINE", url: "https://pubmed.ncbi.nlm.nih.gov/16849436/" },
-    { titulo: "The validity of Antonovsky's sense of coherence measure in a cross-cultural study", autores: "Lundberg & Nyström Peck", ano: 1994, base: "Web of Science", url: "https://www.webofscience.com/wos/woscc/full-record/WOS:A1994NR03900006" },
-    { titulo: "Salutogenesis and sense of coherence: significance for mental health promotion", autores: "Lindström & Eriksson", ano: 2005, base: "Scopus", url: "https://www.scopus.com/record/display.uri?eid=2-s2.0-22944476963" },
+    { titulo:"Sense of coherence and psychological well-being", autores:"Eriksson & Lindström", ano:2006, base:"PubMed/MEDLINE", url:"https://pubmed.ncbi.nlm.nih.gov/16849436/" },
+    { titulo:"The validity of Antonovsky's sense of coherence measure", autores:"Lundberg & Nyström Peck", ano:1994, base:"Web of Science", url:"https://www.webofscience.com/wos/woscc/full-record/WOS:A1994NR03900006" },
+    { titulo:"Salutogenesis and sense of coherence: significance for mental health promotion", autores:"Lindström & Eriksson", ano:2005, base:"Scopus", url:"https://www.scopus.com/record/display.uri?eid=2-s2.0-22944476963" },
   ],
   maneabilidade: [
-    { titulo: "Sense of coherence and social support: a randomized controlled trial", autores: "Vastamäki et al.", ano: 2011, base: "PubMed/MEDLINE", url: "https://pubmed.ncbi.nlm.nih.gov/21491233/" },
-    { titulo: "Coping, sense of coherence and the meaning of religious practices", autores: "Pargament et al.", ano: 1992, base: "EMBASE", url: "https://www.embase.com/search/results?query=sense+of+coherence+coping" },
-    { titulo: "Sense of coherence as a mediator between social support and mental health", autores: "Feldt et al.", ano: 2000, base: "Scopus", url: "https://www.scopus.com/record/display.uri?eid=2-s2.0-0033755062" },
+    { titulo:"Sense of coherence and social support", autores:"Vastamäki et al.", ano:2011, base:"PubMed/MEDLINE", url:"https://pubmed.ncbi.nlm.nih.gov/21491233/" },
+    { titulo:"Sense of coherence as mediator between social support and mental health", autores:"Feldt et al.", ano:2000, base:"Scopus", url:"https://www.scopus.com/record/display.uri?eid=2-s2.0-0033755062" },
+    { titulo:"Physical activity and sense of coherence", autores:"Hassmén et al.", ano:2000, base:"EMBASE", url:"https://www.embase.com/search/results?query=sense+of+coherence+physical+activity" },
   ],
   significancia: [
-    { titulo: "Meaningfulness as a mediator of sense of coherence and well-being", autores: "Braun-Lewensohn & Sagy", ano: 2010, base: "Web of Science", url: "https://www.webofscience.com/wos/woscc/full-record/WOS:000279876800005" },
-    { titulo: "Sense of coherence and purpose in life as predictors of psychological well-being", autores: "Zika & Chamberlain", ano: 1992, base: "PubMed/MEDLINE", url: "https://pubmed.ncbi.nlm.nih.gov/1593658/" },
-    { titulo: "The relationship between sense of coherence and quality of life", autores: "Eriksson & Lindström", ano: 2007, base: "CINAHL", url: "https://www.ebsco.com/products/research-databases/cinahl" },
+    { titulo:"Meaningfulness as mediator of sense of coherence and well-being", autores:"Braun-Lewensohn & Sagy", ano:2010, base:"Web of Science", url:"https://www.webofscience.com/wos/woscc/full-record/WOS:000279876800005" },
+    { titulo:"Sense of coherence and purpose in life as predictors of well-being", autores:"Zika & Chamberlain", ano:1992, base:"PubMed/MEDLINE", url:"https://pubmed.ncbi.nlm.nih.gov/1593658/" },
+    { titulo:"Sense of coherence and quality of life", autores:"Eriksson & Lindström", ano:2007, base:"CINAHL", url:"https://www.ebsco.com/products/research-databases/cinahl-database" },
   ],
 };
 
 const INTERVENCOES = {
   compreensibilidade: [
-    { nome: "Diário de sentido", como: "Reserve 10 minutos ao final do dia para registrar 3 situações que fizeram sentido para você — mesmo que pequenas. Use um caderno físico ou aplicativo de notas.", porque: "Treina o cérebro a perceber padrões e previsibilidade na vida cotidiana, fortalecendo a sensação de que o mundo é compreensível.", refs: REFERENCIAS.compreensibilidade.slice(0,2) },
-    { nome: "Conversa de 5 minutos", como: "Escolha uma pessoa de confiança e, uma vez por semana, converse por 5 minutos sobre como está se sentindo. Sem julgamentos.", porque: "O suporte social fortalece diretamente a capacidade de dar sentido às experiências e reduz a sensação de caos.", refs: REFERENCIAS.compreensibilidade.slice(1,3) },
-    { nome: "Pausa consciente", como: "Quando sentir sobrecarga, pare por 2 minutos, respire fundo 3 vezes e se pergunte: 'O que eu entendo sobre essa situação?'", porque: "Interrompe o ciclo de confusão cognitiva e ativa a capacidade reflexiva de dar sentido ao que acontece.", refs: REFERENCIAS.compreensibilidade },
+    { emoji:"📔", nome:"Diário de sentido", posologia:"10 min · 1x ao dia · por 2 semanas", como:"Ao final do dia, anote 3 situações que fizeram sentido para você — mesmo pequenas.", porque:"Treina o cérebro a identificar padrões e previsibilidade, fortalecendo a sensação de que o mundo é compreensível.", refs:[REFS.compreensibilidade[0], REFS.compreensibilidade[1]] },
+    { emoji:"💬", nome:"Conversa de 5 minutos", posologia:"5 min · 1x por semana · por 2 semanas", como:"Escolha alguém de confiança e converse sobre como está se sentindo. Sem julgamentos.", porque:"O suporte social fortalece a capacidade de dar sentido às experiências.", refs:[REFS.compreensibilidade[1], REFS.compreensibilidade[2]] },
+    { emoji:"⏸️", nome:"Pausa consciente", posologia:"2 min · sempre que sentir sobrecarga", como:"Pare, respire fundo 3 vezes e pergunte-se: 'O que eu entendo sobre essa situação?'", porque:"Interrompe a confusão cognitiva e ativa a capacidade reflexiva.", refs:[REFS.compreensibilidade[0], REFS.compreensibilidade[2]] },
   ],
   maneabilidade: [
-    { nome: "Lista de recursos", como: "Escreva 5 recursos que você tem disponíveis: pessoas, habilidades, experiências ou ferramentas. Revise essa lista quando sentir que não tem controle.", porque: "Reconhecer os próprios recursos fortalece a sensação de maneabilidade — a crença de que você tem o que precisa para lidar com os desafios.", refs: REFERENCIAS.maneabilidade.slice(0,2) },
-    { nome: "Atividade física regular", como: "Faça 30 minutos de caminhada, 3 vezes por semana. Não precisa ser intensa — o ritmo constante já é suficiente.", porque: "Exercício físico regular está associado ao aumento da sensação de controle sobre o próprio corpo e vida.", refs: REFERENCIAS.maneabilidade.slice(1,3) },
-    { nome: "Celebração de pequenas vitórias", como: "Ao final de cada semana, identifique 1 desafio que você enfrentou e como o superou. Reconheça isso como evidência da sua capacidade.", porque: "Fortalecer a memória de superação aumenta a crença na própria capacidade de lidar com situações futuras.", refs: REFERENCIAS.maneabilidade },
+    { emoji:"🗂️", nome:"Lista de recursos", posologia:"5 min · 1x por semana · por 2 semanas", como:"Escreva 5 recursos seus: pessoas, habilidades ou experiências. Releia quando sentir que não tem controle.", porque:"Reconhecer os próprios recursos fortalece a crença de que você tem o que precisa para os desafios.", refs:[REFS.maneabilidade[0], REFS.maneabilidade[1]] },
+    { emoji:"🏃", nome:"Movimento diário", posologia:"30 min · 3x por semana · por 2 semanas", como:"Caminhada, dança, qualquer movimento que goste. Sem pressão de intensidade.", porque:"Exercício regular aumenta a sensação de controle sobre o próprio corpo e a vida.", refs:[REFS.maneabilidade[2], REFS.maneabilidade[0]] },
+    { emoji:"🏆", nome:"Vitória da semana", posologia:"5 min · toda sexta-feira · por 2 semanas", como:"Identifique 1 desafio que enfrentou e como o superou. Escreva ou apenas reflita.", porque:"Fortalecer a memória de superação aumenta a crença na própria capacidade.", refs:[REFS.maneabilidade[1], REFS.maneabilidade[2]] },
   ],
   significancia: [
-    { nome: "Conexão com o propósito", como: "Escreva uma frase que responda: 'Por que o que faço importa?' Leia essa frase ao iniciar o dia de trabalho.", porque: "Reconectar-se com o propósito fortalece a dimensão de significância — o motor emocional do senso de coerência.", refs: REFERENCIAS.significancia.slice(0,2) },
-    { nome: "Ato de gratidão", como: "Antes de dormir, identifique 1 coisa pela qual você é grato hoje. Pode ser algo simples — um café, uma conversa, um momento de silêncio.", porque: "Práticas de gratidão estão associadas ao aumento da percepção de significado na vida cotidiana.", refs: REFERENCIAS.significancia.slice(1,3) },
-    { nome: "Conexão com algo maior", como: "Dedique 15 minutos semanais a uma atividade que te conecte com algo além do trabalho: natureza, espiritualidade, arte ou voluntariado.", porque: "A sensação de pertencer a algo maior do que si mesmo é um dos pilares da significância e do bem-estar duradouro.", refs: REFERENCIAS.significancia },
+    { emoji:"🎯", nome:"Minha razão", posologia:"2 min · toda manhã · por 2 semanas", como:"Leia ou escreva uma frase: 'O que faço importa porque...' Comece o dia conectado ao seu propósito.", porque:"Reconectar-se com o propósito fortalece a dimensão de significância — o motor emocional do SOC.", refs:[REFS.significancia[0], REFS.significancia[1]] },
+    { emoji:"🙏", nome:"Gratidão noturna", posologia:"2 min · 1x ao dia · por 2 semanas", como:"Antes de dormir, identifique 1 coisa pela qual é grato hoje. Pode ser algo simples.", porque:"Práticas de gratidão estão associadas ao aumento da percepção de significado na vida.", refs:[REFS.significancia[1], REFS.significancia[2]] },
+    { emoji:"🌱", nome:"Conexão maior", posologia:"15 min · 1x por semana · por 2 semanas", como:"Dedique tempo a algo além do trabalho: natureza, espiritualidade, arte ou voluntariado.", porque:"Pertencer a algo maior do que si mesmo é um dos pilares do bem-estar duradouro.", refs:[REFS.significancia[0], REFS.significancia[2]] },
   ],
 };
 
-const OPT_IDADE = ["Até 25 anos","26 a 30 anos","31 a 40 anos","41 a 50 anos","51 a 60 anos","61 anos ou mais"];
-const OPT_SEXO = ["Feminino","Masculino"];
-const OPT_IDENTIDADE = ["Mulher cisgênero","Homem cisgênero","Mulher trans","Homem trans","Não binário"];
-const OPT_RACA = ["Branco(a)","Pardo(a)","Preto(a)","Amarelo(a)","Indígena"];
-const OPT_RENDA = ["Até 1 salário mínimo","1 a 2 salários mínimos","2 a 3 salários mínimos","3 a 4 salários mínimos","4 a 5 salários mínimos","Acima de 5 salários mínimos"];
-const OPT_ESTADO_CIVIL = ["Solteiro(a)","Casado(a) / União estável","Divorciado(a) / Separado(a)","Viúvo(a)"];
-const OPT_CATEGORIA = ["Enfermeiro(a)","Enfermeiro(a) especialista","Mestre","Doutor(a)"];
-const OPT_TEMPO_PROF = ["Menos de 6 meses","6 meses a 1 ano","1 a 2 anos","2 a 5 anos","5 a 10 anos","10 anos ou mais"];
-const OPT_TURNO = ["Manhã","Tarde","Noite","Plantão 12h","Plantão 24h","Misto"];
-const OPT_CARGA = ["Até 20h","21h a 30h","31h a 40h","41h ou mais"];
-const OPT_FUNCAO = ["Assistencial","Supervisão / Gestão","Auditoria","Preceptoria / Docência","Outra"];
-const OPT_SETOR = ["UTI","Centro Cirúrgico","Clínica Médica","Obstetrícia / Maternidade","Pediatria","Oncologia","Saúde Mental","Pronto-socorro / Emergência","Atenção Básica (ESF/UBS)","Outro"];
-const OPT_VINCULO = ["CLT","Estatutário","PJ / Cooperado","Contrato Temporário"];
-const OPT_FREQ = ["Nunca","Mensalmente ou menos","2 a 4 vezes por mês","2 a 3 vezes por semana","4 ou mais vezes por semana"];
-const DIMS_BW = [
+const OPT_IDADE=["Até 25 anos","26 a 30 anos","31 a 40 anos","41 a 50 anos","51 a 60 anos","61 anos ou mais"];
+const OPT_SEXO=["Feminino","Masculino"];
+const OPT_IDENTIDADE=["Mulher cisgênero","Homem cisgênero","Mulher trans","Homem trans","Não binário"];
+const OPT_RACA=["Branco(a)","Pardo(a)","Preto(a)","Amarelo(a)","Indígena"];
+const OPT_RENDA=["Até 1 salário mínimo","1 a 2 salários mínimos","2 a 3 salários mínimos","3 a 4 salários mínimos","4 a 5 salários mínimos","Acima de 5 salários mínimos"];
+const OPT_ESTADO_CIVIL=["Solteiro(a)","Casado(a) / União estável","Divorciado(a) / Separado(a)","Viúvo(a)"];
+const OPT_CATEGORIA=["Enfermeiro(a)","Enfermeiro(a) especialista","Mestre","Doutor(a)"];
+const OPT_TEMPO_PROF=["Menos de 6 meses","6 meses a 1 ano","1 a 2 anos","2 a 5 anos","5 a 10 anos","10 anos ou mais"];
+const OPT_TURNO=["Manhã","Tarde","Noite","Plantão 12h","Plantão 24h","Misto"];
+const OPT_CARGA=["Até 20h","21h a 30h","31h a 40h","41h ou mais"];
+const OPT_FUNCAO=["Assistencial","Supervisão / Gestão","Auditoria","Preceptoria / Docência","Outra"];
+const OPT_SETOR=["UTI","Centro Cirúrgico","Clínica Médica","Obstetrícia / Maternidade","Pediatria","Oncologia","Saúde Mental","Pronto-socorro / Emergência","Atenção Básica (ESF/UBS)","Outro"];
+const OPT_VINCULO=["CLT","Estatutário","PJ / Cooperado","Contrato Temporário"];
+const OPT_FREQ=["Nunca","Mensalmente ou menos","2 a 4 vezes por mês","2 a 3 vezes por semana","4 ou mais vezes por semana"];
+const DIMS_BW=[
   {key:"alimentacao",label:"Alimentação",emoji:"🥗"},
   {key:"sono",label:"Sono e repouso",emoji:"😴"},
   {key:"saude_mental",label:"Saúde mental",emoji:"🧠"},
@@ -116,217 +116,247 @@ const DIMS_BW = [
   {key:"atividade_fisica",label:"Atividade física",emoji:"🏃"},
   {key:"satisfacao_vida",label:"Satisfação com a vida",emoji:"✨"},
 ];
-const LIKERT_BW = ["1","2","3","4","5"];
-const LIKERT_LABELS = ["Muito ruim","Ruim","Regular","Boa","Muito boa"];
+const LIKERT_BW=["1","2","3","4","5"];
+const LIKERT_LABELS=["Muito ruim","Ruim","Regular","Boa","Muito boa"];
+
+// Renderizar markdown simples
+function Markdown({text}) {
+  if (!text) return null;
+  const lines = text.split('\n');
+  return <div style={{fontSize:".88rem",lineHeight:1.8,color:"var(--gray-700)"}}>
+    {lines.map((line, i) => {
+      if (!line.trim()) return <br key={i}/>;
+      // Títulos com **TEXTO**
+      const titleMatch = line.match(/^\d+\.\s+\*\*(.+?)\*\*/);
+      if (titleMatch) return <div key={i} style={{fontWeight:700,color:"var(--navy)",fontSize:".92rem",marginTop:"1rem",marginBottom:".25rem"}}>
+        {titleMatch[1]}
+      </div>;
+      // Remover ** restantes e renderizar
+      const clean = line.replace(/\*\*(.+?)\*\*/g, '$1').replace(/^\*\s+/, '• ');
+      return <p key={i} style={{marginBottom:".5rem"}}>{clean}</p>;
+    })}
+  </div>;
+}
 
 const CSS = `
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
 *{box-sizing:border-box;margin:0;padding:0;}
 :root{
-  --navy:#0B2545;--blue:#1B4F8C;--sky:#2979D0;--light:#5BA4F5;--pale:#EBF4FF;--white:#FFFFFF;
+  --navy:#0B2545;--blue:#1B4F8C;--sky:#2979D0;--light:#5BA4F5;--pale:#EBF4FF;
   --teal:#0D7377;--mint:#14A085;--green-pale:#E6F7F4;
   --amber:#D97706;--amber-pale:#FEF3C7;
   --red:#DC2626;--red-pale:#FEE2E2;
   --gray-900:#111827;--gray-700:#374151;--gray-500:#6B7280;--gray-300:#D1D5DB;--gray-100:#F3F4F6;--gray-50:#F9FAFB;
-  --radius-sm:8px;--radius:12px;--radius-lg:20px;--radius-xl:28px;
-  --shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
-  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
-  --shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05);
 }
 html{-webkit-text-size-adjust:100%;}
-body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gray-50);color:var(--gray-900);min-height:100vh;-webkit-font-smoothing:antialiased;}
-
-/* HEADER */
-.hdr{background:var(--navy);padding:1rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
-.hdr-brand{display:flex;align-items:center;gap:.6rem;}
-.hdr-icon{font-size:1.4rem;}
-.hdr-name{font-size:1rem;font-weight:800;color:white;letter-spacing:-.02em;}
-.hdr-name span{color:var(--light);}
-.hdr-btn{font-size:.72rem;padding:.35rem .75rem;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.6);cursor:pointer;font-family:inherit;transition:all .2s;}
-.hdr-btn:hover{background:rgba(255,255,255,.1);color:white;}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--gray-50);color:var(--gray-900);-webkit-font-smoothing:antialiased;}
+.hdr{background:var(--navy);padding:.9rem 1.25rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.hdr-brand{display:flex;align-items:center;gap:.5rem;}
+.hdr-logo{font-size:1.25rem;font-weight:800;color:white;letter-spacing:-.02em;}
+.hdr-logo span{color:#5BA4F5;}
+.hdr-btn{font-size:.72rem;padding:.3rem .7rem;border-radius:20px;border:1px solid rgba(255,255,255,.2);background:transparent;color:rgba(255,255,255,.55);cursor:pointer;font-family:inherit;}
+.main{max-width:520px;margin:0 auto;padding-bottom:3rem;}
 
 /* HERO */
-.hero{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);padding:3rem 1.5rem 2rem;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,.04);}
-.hero::after{content:'';position:absolute;bottom:-40px;left:-40px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.03);}
-.hero-badge{display:inline-block;background:rgba(255,255,255,.12);color:rgba(255,255,255,.9);font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:.35rem .9rem;border-radius:20px;margin-bottom:1rem;}
-.hero-title{font-size:2.2rem;font-weight:800;color:white;line-height:1.15;letter-spacing:-.03em;margin-bottom:.75rem;}
-.hero-title span{color:var(--light);}
-.hero-sub{font-size:.95rem;color:rgba(255,255,255,.7);line-height:1.6;max-width:320px;margin:0 auto 2rem;}
-.hero-btns{display:flex;gap:.75rem;justify-content:center;flex-wrap:wrap;}
-.btn-hero-p{background:white;color:var(--navy);font-size:.9rem;font-weight:700;padding:.8rem 1.6rem;border-radius:var(--radius-xl);border:none;cursor:pointer;font-family:inherit;transition:all .2s;display:flex;align-items:center;gap:.4rem;}
-.btn-hero-p:hover{transform:translateY(-1px);box-shadow:var(--shadow-lg);}
-.btn-hero-s{background:transparent;color:white;font-size:.9rem;font-weight:600;padding:.8rem 1.6rem;border-radius:var(--radius-xl);border:2px solid rgba(255,255,255,.3);cursor:pointer;font-family:inherit;transition:all .2s;}
-.btn-hero-s:hover{background:rgba(255,255,255,.1);}
+.hero{background:linear-gradient(150deg,var(--navy) 0%,#1a3a6b 100%);padding:2.5rem 1.5rem 2rem;text-align:center;position:relative;overflow:hidden;}
+.hero-badge{display:inline-flex;align-items:center;gap:.35rem;background:rgba(255,255,255,.1);color:rgba(255,255,255,.85);font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;padding:.3rem .85rem;border-radius:20px;margin-bottom:1rem;border:1px solid rgba(255,255,255,.15);}
+.hero-title{font-size:2.5rem;font-weight:800;color:white;line-height:1.1;letter-spacing:-.04em;margin-bottom:.6rem;}
+.hero-title em{color:#5BA4F5;font-style:normal;}
+.hero-sub{font-size:.88rem;color:rgba(255,255,255,.65);line-height:1.65;max-width:300px;margin:0 auto 1.75rem;}
+.hero-btns{display:flex;gap:.6rem;justify-content:center;}
+.btn-hp{background:white;color:var(--navy);font-size:.88rem;font-weight:700;padding:.75rem 1.4rem;border-radius:50px;border:none;cursor:pointer;font-family:inherit;transition:transform .15s,box-shadow .15s;}
+.btn-hp:hover{transform:translateY(-1px);box-shadow:0 8px 20px rgba(0,0,0,.2);}
+.btn-hs{background:rgba(255,255,255,.1);color:white;font-size:.88rem;font-weight:600;padding:.75rem 1.4rem;border-radius:50px;border:1px solid rgba(255,255,255,.25);cursor:pointer;font-family:inherit;}
+
+/* EXPLORE */
+.explore{padding:1.5rem 1.25rem 0;}
+.explore h2{font-size:1rem;font-weight:700;margin-bottom:.15rem;}
+.explore p{font-size:.78rem;color:var(--gray-500);margin-bottom:1rem;}
+.explore-card{background:white;border-radius:14px;padding:1rem 1.1rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.9rem;cursor:pointer;border:1.5px solid var(--gray-100);transition:border-color .2s,box-shadow .15s;}
+.explore-card:hover{border-color:#C7DCFF;box-shadow:0 2px 12px rgba(41,121,208,.08);}
+.explore-icon{width:44px;height:44px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;}
+.explore-body h3{font-size:.88rem;font-weight:700;margin-bottom:.1rem;}
+.explore-body p{font-size:.75rem;color:var(--gray-500);line-height:1.45;}
+.explore-link{font-size:.73rem;font-weight:700;color:var(--sky);margin-top:.2rem;}
 
 /* COMO FUNCIONA */
-.como{padding:2rem 1.25rem;}
-.como-title{font-size:1.5rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.25rem;}
-.como-sub{font-size:.88rem;color:var(--gray-500);margin-bottom:1.5rem;}
-.como-steps{display:flex;flex-direction:column;gap:.75rem;}
-.step-card{background:white;border-radius:var(--radius);padding:1rem 1.1rem;display:flex;align-items:flex-start;gap:.9rem;box-shadow:var(--shadow);}
-.step-num{width:32px;height:32px;border-radius:50%;background:var(--navy);color:white;font-size:.85rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;}
-.step-text h4{font-size:.88rem;font-weight:700;margin-bottom:.2rem;}
-.step-text p{font-size:.8rem;color:var(--gray-500);line-height:1.5;}
+.como-hero{background:var(--navy);padding:1.25rem;color:white;}
+.como-back{background:none;border:none;color:rgba(255,255,255,.6);cursor:pointer;font-family:inherit;font-size:.8rem;margin-bottom:.6rem;display:flex;align-items:center;gap:.25rem;padding:0;}
+.como-hero h2{font-size:1.4rem;font-weight:800;letter-spacing:-.03em;}
+.como-hero p{font-size:.8rem;color:rgba(255,255,255,.55);margin-top:.2rem;}
+.como-body{padding:1.25rem;}
+.privacy-box{background:var(--pale);border-radius:10px;padding:.8rem 1rem;display:flex;align-items:flex-start;gap:.6rem;margin-bottom:1.25rem;border:1px solid #C7DCFF;}
+.privacy-box span{font-size:1.1rem;flex-shrink:0;margin-top:.05rem;}
+.privacy-box p{font-size:.78rem;color:var(--blue);line-height:1.5;}
+.step-item{display:flex;align-items:flex-start;gap:.85rem;margin-bottom:.85rem;}
+.step-n{width:30px;height:30px;border-radius:50%;background:var(--navy);color:white;font-size:.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.step-txt h4{font-size:.85rem;font-weight:700;margin-bottom:.1rem;}
+.step-txt p{font-size:.76rem;color:var(--gray-500);line-height:1.5;}
 
-/* CARDS DE SEÇÃO */
-.section-cards{padding:0 1.25rem 2rem;}
-.sec-card{background:white;border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:.75rem;box-shadow:var(--shadow);display:flex;align-items:flex-start;gap:1rem;cursor:pointer;transition:all .2s;border:2px solid transparent;}
-.sec-card:hover{border-color:var(--pale);box-shadow:var(--shadow-md);}
-.sec-card-icon{width:48px;height:48px;border-radius:var(--radius);display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0;}
-.sec-card-body h3{font-size:.95rem;font-weight:700;margin-bottom:.2rem;}
-.sec-card-body p{font-size:.8rem;color:var(--gray-500);line-height:1.5;margin-bottom:.4rem;}
-.sec-card-link{font-size:.78rem;font-weight:600;color:var(--sky);display:flex;align-items:center;gap:.25rem;}
+/* CARD GENÉRICO */
+.card{background:white;border-radius:16px;padding:1.4rem;margin:1rem 1.25rem;box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);margin-bottom:.3rem;}
+.card-title{font-size:1.15rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.35rem;}
+.card-body{font-size:.85rem;color:var(--gray-500);line-height:1.6;margin-bottom:1.1rem;}
 
-/* MAIN CONTAINER */
-.main{max-width:480px;margin:0 auto;padding-bottom:2rem;}
-
-/* CARDS GENÉRICOS */
-.card{background:white;border-radius:var(--radius-lg);padding:1.5rem;margin:1rem 1.25rem;box-shadow:var(--shadow);}
-.card-eyebrow{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--sky);margin-bottom:.4rem;}
-.card-title{font-size:1.2rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem;}
-.card-body{font-size:.88rem;color:var(--gray-500);line-height:1.65;margin-bottom:1.25rem;}
-
-/* PROGRESS */
-.prog-wrap{padding:0 1.25rem;margin-bottom:-.25rem;}
-.prog-label{font-size:.7rem;color:var(--gray-500);display:flex;justify-content:space-between;margin-bottom:.3rem;}
+/* PROGRESSO */
+.prog-wrap{padding:.75rem 1.25rem 0;}
+.prog-meta{display:flex;justify-content:space-between;font-size:.68rem;color:var(--gray-500);margin-bottom:.3rem;}
 .prog{height:4px;background:var(--gray-200);border-radius:2px;}
-.prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--sky),var(--light));transition:width .4s ease;}
+.prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--sky),#7DB8F7);transition:width .4s;}
 
 /* CAMPOS */
-.field{margin-bottom:1rem;}
-.field label{display:block;font-size:.78rem;font-weight:600;color:var(--gray-700);margin-bottom:.35rem;}
-.field input,.field select{width:100%;padding:.65rem .9rem;border-radius:var(--radius-sm);border:1.5px solid var(--gray-300);font-size:.88rem;font-family:inherit;color:var(--gray-900);background:white;outline:none;transition:border-color .2s,box-shadow .2s;-webkit-appearance:none;}
-.field input:focus,.field select:focus{border-color:var(--sky);box-shadow:0 0 0 3px rgba(41,121,208,.1);}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:0 .75rem;}
-@media(max-width:380px){.grid2{grid-template-columns:1fr;}}
-.section-sep{font-size:.7rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--sky);padding:.75rem 0 .25rem;border-bottom:1px solid var(--pale);margin-bottom:.75rem;}
+.field{margin-bottom:.9rem;}
+.field label{display:block;font-size:.75rem;font-weight:600;color:var(--gray-700);margin-bottom:.3rem;}
+.field input,.field select{width:100%;padding:.6rem .85rem;border-radius:8px;border:1.5px solid var(--gray-300);font-size:.85rem;font-family:inherit;color:var(--gray-900);background:white;outline:none;transition:border-color .2s;-webkit-appearance:none;}
+.field input:focus,.field select:focus{border-color:var(--sky);}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:0 .7rem;}
+@media(max-width:380px){.g2{grid-template-columns:1fr;}}
+.sep{font-size:.68rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--sky);padding:.6rem 0 .2rem;border-bottom:1px solid var(--pale);margin-bottom:.7rem;}
 
 /* BOTÕES */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;padding:.75rem 1.5rem;border-radius:var(--radius-xl);font-size:.88rem;font-weight:700;cursor:pointer;border:none;transition:all .2s;font-family:inherit;letter-spacing:-.01em;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.7rem 1.4rem;border-radius:50px;font-size:.85rem;font-weight:700;cursor:pointer;border:none;transition:all .15s;font-family:inherit;}
 .btn-p{background:var(--navy);color:white;}.btn-p:hover{background:var(--blue);}
-.btn-s{background:var(--pale);color:var(--navy);border:1.5px solid #C7DCFF;}.btn-s:hover{background:#D9EAFF;}
+.btn-s{background:var(--pale);color:var(--navy);border:1.5px solid #C7DCFF;}
 .btn-d{background:var(--red-pale);color:var(--red);}
-.btn-row{display:flex;gap:.6rem;justify-content:flex-end;margin-top:1.25rem;flex-wrap:wrap;}
-.btn:disabled{opacity:.5;cursor:not-allowed;}
+.btn-row{display:flex;gap:.5rem;justify-content:flex-end;margin-top:1.1rem;flex-wrap:wrap;}
+.btn:disabled{opacity:.45;cursor:not-allowed;}
+.btn-full{width:100%;margin-top:.5rem;}
 
 /* ALERTAS */
-.alert{padding:.7rem 1rem;border-radius:var(--radius-sm);font-size:.82rem;margin-bottom:.9rem;line-height:1.5;display:flex;gap:.5rem;align-items:flex-start;}
+.alert{padding:.65rem .9rem;border-radius:8px;font-size:.8rem;margin-bottom:.8rem;line-height:1.5;display:flex;gap:.45rem;align-items:flex-start;}
 .ai{background:var(--pale);color:var(--blue);border:1px solid #C7DCFF;}
-.as{background:var(--green-pale);color:var(--teal);border:1px solid #A7E6DC;}
 .aw{background:var(--amber-pale);color:var(--amber);border:1px solid #FCD34D;}
 .ae{background:var(--red-pale);color:var(--red);border:1px solid #FCA5A5;}
-
-/* SPIN */
-.spin{width:36px;height:36px;border:3px solid var(--gray-200);border-top-color:var(--sky);border-radius:50%;animation:sp .8s linear infinite;margin:2rem auto;}
+.as{background:var(--green-pale);color:var(--teal);border:1px solid #A7E6DC;}
+.spin{width:34px;height:34px;border:3px solid var(--gray-200);border-top-color:var(--sky);border-radius:50%;animation:sp .8s linear infinite;margin:2rem auto;}
 @keyframes sp{to{transform:rotate(360deg);}}
 
 /* TCLE */
-.tcle-box{font-size:.8rem;line-height:1.75;color:var(--gray-700);max-height:220px;overflow-y:auto;background:var(--gray-50);padding:.9rem;border-radius:var(--radius-sm);border:1px solid var(--gray-300);margin-bottom:.9rem;}
+.tcle-box{font-size:.78rem;line-height:1.7;color:var(--gray-700);max-height:210px;overflow-y:auto;background:var(--gray-50);padding:.85rem;border-radius:8px;border:1px solid var(--gray-200);margin-bottom:.8rem;}
 
-/* LIKERT BEM-ESTAR */
-.bw-item{margin-bottom:1.25rem;}
-.bw-header{display:flex;align-items:center;gap:.5rem;margin-bottom:.5rem;}
-.bw-emoji{font-size:1.1rem;}
-.bw-label{font-size:.85rem;font-weight:600;}
-.bw-opts{display:flex;gap:.35rem;}
-.bw-btn{flex:1;padding:.55rem .1rem;border-radius:var(--radius-sm);border:1.5px solid var(--gray-300);background:white;cursor:pointer;font-size:.78rem;font-weight:500;color:var(--gray-500);transition:all .15s;font-family:inherit;text-align:center;line-height:1.3;}
-.bw-btn:hover{border-color:var(--sky);color:var(--sky);}
+/* BEM-ESTAR */
+.bw-item{margin-bottom:1.1rem;}
+.bw-hdr{display:flex;align-items:center;gap:.45rem;margin-bottom:.45rem;}
+.bw-lbl{font-size:.83rem;font-weight:600;}
+.bw-opts{display:flex;gap:.3rem;}
+.bw-btn{flex:1;padding:.45rem .1rem;border-radius:8px;border:1.5px solid var(--gray-200);background:white;cursor:pointer;font-size:.73rem;font-weight:500;color:var(--gray-500);transition:all .12s;font-family:inherit;text-align:center;line-height:1.3;}
+.bw-btn:hover{border-color:var(--sky);}
 .bw-btn.sel{background:var(--navy);border-color:var(--navy);color:white;font-weight:700;}
-.bw-scale-labels{display:flex;justify-content:space-between;font-size:.65rem;color:var(--gray-400);margin-top:.25rem;}
+.bw-scale{display:flex;justify-content:space-between;font-size:.62rem;color:var(--gray-400);margin-top:.2rem;}
 
 /* SOC */
-.soc-ancora{background:var(--pale);border-left:3px solid var(--sky);border-radius:0 var(--radius-sm) var(--radius-sm) 0;padding:.6rem .85rem;font-size:.78rem;color:var(--blue);font-style:italic;margin-bottom:1rem;}
-.soc-pergunta{font-size:.95rem;font-weight:600;line-height:1.55;color:var(--gray-900);margin-bottom:1rem;}
-.soc-scale{display:flex;gap:.3rem;margin-bottom:.3rem;}
-.soc-btn{flex:1;height:46px;border:1.5px solid var(--gray-300);border-radius:var(--radius-sm);background:white;cursor:pointer;font-size:.95rem;font-weight:700;color:var(--gray-500);transition:all .15s;font-family:inherit;}
+.soc-ancora{background:var(--pale);border-left:3px solid var(--sky);border-radius:0 8px 8px 0;padding:.55rem .8rem;font-size:.76rem;color:var(--blue);font-style:italic;margin-bottom:.9rem;}
+.soc-q{font-size:.93rem;font-weight:600;line-height:1.55;margin-bottom:.9rem;}
+.soc-scale{display:flex;gap:.28rem;margin-bottom:.3rem;}
+.soc-btn{flex:1;height:44px;border:1.5px solid var(--gray-200);border-radius:8px;background:white;cursor:pointer;font-size:.9rem;font-weight:700;color:var(--gray-400);transition:all .12s;font-family:inherit;}
 .soc-btn:hover{border-color:var(--sky);color:var(--sky);}
 .soc-btn.sel{background:var(--navy);border-color:var(--navy);color:white;}
-.soc-anchors{display:flex;justify-content:space-between;font-size:.65rem;color:var(--gray-400);}
-.soc-instrucoes{background:var(--pale);border-radius:var(--radius);padding:1rem;margin-bottom:1.25rem;border:1px solid #C7DCFF;}
-.soc-instrucoes h4{font-size:.82rem;font-weight:700;color:var(--navy);margin-bottom:.35rem;}
-.soc-instrucoes p{font-size:.78rem;color:var(--blue);line-height:1.55;}
-
-/* VIDEO */
-.video-modal{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:200;display:flex;align-items:center;justify-content:center;padding:1rem;}
-.video-box{background:white;border-radius:var(--radius-lg);padding:1.25rem;width:100%;max-width:420px;}
-.video-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;}
-.video-header h3{font-size:.95rem;font-weight:700;}
-.video-close{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--gray-500);}
-.video-placeholder{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--radius);aspect-ratio:16/9;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.75rem;cursor:pointer;transition:opacity .2s;}
-.video-placeholder:hover{opacity:.9;}
-.video-play{width:56px;height:56px;background:rgba(255,255,255,.9);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.5rem;}
-.video-placeholder-text{color:rgba(255,255,255,.8);font-size:.8rem;text-align:center;padding:0 1rem;}
-.video-note{font-size:.75rem;color:var(--gray-500);margin-top:.75rem;text-align:center;}
+.soc-anch{display:flex;justify-content:space-between;font-size:.63rem;color:var(--gray-400);}
+.soc-instrucoes{background:var(--pale);border-radius:10px;padding:.9rem;margin-bottom:1.1rem;border:1px solid #C7DCFF;}
+.soc-instrucoes h4{font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;}
+.soc-instrucoes p{font-size:.76rem;color:var(--blue);line-height:1.55;}
 
 /* RESULTADO */
-.resultado-hero{background:linear-gradient(135deg,var(--navy),var(--blue));border-radius:var(--radius-lg);padding:1.5rem;margin:1rem 1.25rem;color:white;text-align:center;}
-.resultado-num{font-size:3.5rem;font-weight:800;letter-spacing:-.04em;line-height:1;}
-.resultado-max{font-size:.9rem;opacity:.6;margin-bottom:.5rem;}
-.resultado-badge{display:inline-block;padding:.3rem .9rem;border-radius:20px;font-size:.8rem;font-weight:700;margin-bottom:1rem;}
-.badge-alto{background:rgba(20,160,133,.25);color:#7FFFD4;}
-.badge-medio{background:rgba(217,119,6,.25);color:#FCD34D;}
-.badge-baixo{background:rgba(220,38,38,.25);color:#FCA5A5;}
-.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin:1rem 1.25rem;}
-.score-card{background:white;border-radius:var(--radius);padding:.9rem;box-shadow:var(--shadow);}
-.score-card.dark{background:var(--navy);color:white;}
-.score-name{font-size:.65rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sky);margin-bottom:.2rem;}
-.score-card.dark .score-name{color:var(--light);}
-.score-num{font-size:1.6rem;font-weight:800;letter-spacing:-.03em;}
-.score-max{font-size:.75rem;color:var(--gray-400);}
-.score-bar{height:4px;background:var(--pale);border-radius:2px;margin-top:.4rem;}
-.score-fill{height:100%;border-radius:2px;background:var(--sky);}
-.score-card.dark .score-bar{background:rgba(255,255,255,.15);}
-.score-card.dark .score-fill{background:var(--light);}
-.foco-label{font-size:.88rem;font-weight:700;color:white;margin-top:.25rem;text-transform:capitalize;}
+.res-hero{background:linear-gradient(135deg,var(--navy),#1a3a6b);border-radius:16px;padding:1.5rem;margin:1rem 1.25rem;text-align:center;}
+.res-num{font-size:3.2rem;font-weight:800;color:white;letter-spacing:-.04em;line-height:1;}
+.res-de{font-size:.8rem;color:rgba(255,255,255,.5);margin-bottom:.4rem;}
+.res-badge{display:inline-block;padding:.28rem .85rem;border-radius:20px;font-size:.78rem;font-weight:700;margin-bottom:.6rem;}
+.b-alto{background:rgba(20,160,133,.3);color:#7FFFD4;}
+.b-medio{background:rgba(217,119,6,.3);color:#FCD34D;}
+.b-baixo{background:rgba(220,38,38,.3);color:#FCA5A5;}
+.res-foco{font-size:.78rem;color:rgba(255,255,255,.6);}
+.res-foco strong{color:white;text-transform:capitalize;}
+.score-grid{display:grid;grid-template-columns:1fr 1fr;gap:.65rem;margin:0 1.25rem 0;}
+.score-card{background:white;border-radius:12px;padding:.85rem;box-shadow:0 1px 3px rgba(0,0,0,.07);}
+.score-card.dk{background:var(--navy);}
+.sc-name{font-size:.62rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sky);margin-bottom:.15rem;}
+.dk .sc-name{color:var(--light);}
+.sc-num{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;}
+.sc-max{font-size:.72rem;color:var(--gray-400);}
+.sc-bar{height:4px;background:var(--pale);border-radius:2px;margin-top:.35rem;}
+.sc-fill{height:100%;border-radius:2px;background:var(--sky);}
+.dk .sc-bar{background:rgba(255,255,255,.12);}
+.dk .sc-fill{background:var(--light);}
+.dk .sc-num{color:white;}
+.foco-val{font-size:.88rem;font-weight:700;color:white;text-transform:capitalize;margin-top:.2rem;}
 
 /* INTERVENÇÕES */
-.intervencao-card{background:white;border-radius:var(--radius-lg);padding:1.25rem;margin-bottom:.75rem;box-shadow:var(--shadow);border-left:4px solid var(--sky);}
-.int-nome{font-size:.95rem;font-weight:700;margin-bottom:.3rem;display:flex;align-items:center;gap:.4rem;}
-.int-como-label{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--sky);margin:.75rem 0 .25rem;}
-.int-como{font-size:.82rem;color:var(--gray-700);line-height:1.6;}
-.int-porque-label{font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mint);margin:.6rem 0 .25rem;}
-.int-porque{font-size:.82rem;color:var(--gray-700);line-height:1.6;}
-.int-refs{margin-top:.85rem;padding-top:.75rem;border-top:1px solid var(--gray-100);}
-.int-refs-title{font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--gray-400);margin-bottom:.4rem;display:flex;align-items:center;gap:.3rem;}
-.int-ref{display:flex;flex-direction:column;gap:.05rem;margin-bottom:.4rem;}
-.int-ref-titulo{font-size:.75rem;font-weight:600;color:var(--gray-700);line-height:1.4;}
-.int-ref-meta{font-size:.68rem;color:var(--gray-400);}
-.int-ref-link{font-size:.72rem;font-weight:600;color:var(--sky);text-decoration:none;display:inline-flex;align-items:center;gap:.2rem;margin-top:.1rem;}
-.int-ref-link:hover{text-decoration:underline;}
+.int-card{background:white;border-radius:14px;padding:1.1rem;margin-bottom:.7rem;border-left:3px solid var(--sky);box-shadow:0 1px 3px rgba(0,0,0,.06);}
+.int-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:.25rem;}
+.int-nome{font-size:.92rem;font-weight:700;display:flex;align-items:center;gap:.35rem;}
+.int-posologia{display:inline-flex;align-items:center;gap:.25rem;background:var(--pale);color:var(--blue);font-size:.68rem;font-weight:700;padding:.2rem .55rem;border-radius:20px;border:1px solid #C7DCFF;}
+.int-lbl{font-size:.65rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;margin:.65rem 0 .15rem;}
+.int-lbl.azul{color:var(--sky);}
+.int-lbl.verde{color:var(--mint);}
+.int-txt{font-size:.8rem;color:var(--gray-700);line-height:1.55;}
+.int-refs{margin-top:.7rem;padding-top:.65rem;border-top:1px solid var(--gray-100);}
+.int-refs-title{font-size:.63rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--gray-400);margin-bottom:.35rem;}
+.int-ref{margin-bottom:.35rem;}
+.int-ref-t{font-size:.73rem;font-weight:600;color:var(--gray-700);line-height:1.35;}
+.int-ref-m{font-size:.66rem;color:var(--gray-400);margin-top:.05rem;}
+.int-ref-a{font-size:.7rem;font-weight:700;color:var(--sky);text-decoration:none;display:inline-flex;align-items:center;gap:.2rem;margin-top:.05rem;}
+.int-ref-a:hover{text-decoration:underline;}
 
-/* DIAGNÓSTICO */
-.diag-text{font-size:.85rem;line-height:1.8;color:var(--gray-700);white-space:pre-wrap;}
+/* RETORNO */
+.retorno-hero{background:linear-gradient(135deg,var(--navy),#1a3a6b);padding:2rem 1.5rem;text-align:center;color:white;}
+.retorno-emoji{font-size:2.5rem;margin-bottom:.5rem;}
+.retorno-hero h2{font-size:1.3rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.4rem;}
+.retorno-hero p{font-size:.85rem;color:rgba(255,255,255,.65);line-height:1.6;}
+.opcao-btn{width:100%;background:white;border:1.5px solid var(--gray-200);border-radius:12px;padding:.85rem 1rem;display:flex;align-items:center;gap:.75rem;cursor:pointer;font-family:inherit;margin-bottom:.6rem;transition:border-color .15s,box-shadow .15s;text-align:left;}
+.opcao-btn:hover{border-color:var(--sky);box-shadow:0 2px 8px rgba(41,121,208,.1);}
+.opcao-btn.sel{border-color:var(--sky);background:var(--pale);}
+.opcao-emoji{font-size:1.3rem;flex-shrink:0;}
+.opcao-txt h4{font-size:.85rem;font-weight:700;color:var(--gray-900);}
+.opcao-txt p{font-size:.75rem;color:var(--gray-500);margin-top:.05rem;}
 
-/* EVOLUÇÃO */
-.bar-row{display:flex;align-items:center;gap:.6rem;margin-bottom:.4rem;}
-.bar-lbl{font-size:.72rem;color:var(--gray-500);min-width:70px;}
-.bar-bg{flex:1;height:6px;background:var(--gray-200);border-radius:3px;}
-.bar-val{height:100%;border-radius:3px;background:linear-gradient(90deg,var(--sky),var(--light));transition:width .6s;}
-.bar-num{font-size:.72rem;font-weight:700;color:var(--navy);min-width:24px;}
+/* COMPARAÇÃO */
+.comp-row{display:flex;align-items:center;gap:.75rem;margin-bottom:.6rem;}
+.comp-lbl{font-size:.75rem;color:var(--gray-500);min-width:60px;font-weight:500;}
+.comp-bars{flex:1;}
+.comp-bar-wrap{display:flex;align-items:center;gap:.4rem;margin-bottom:.2rem;}
+.comp-bar-bg{flex:1;height:6px;border-radius:3px;}
+.comp-bar-bg.m1{background:var(--gray-200);}
+.comp-bar-bg.m2{background:var(--pale);}
+.comp-bar-fill{height:100%;border-radius:3px;transition:width .6s;}
+.comp-bar-fill.c1{background:var(--gray-400);}
+.comp-bar-fill.c2{background:var(--sky);}
+.comp-bar-num{font-size:.7rem;font-weight:700;min-width:20px;color:var(--gray-500);}
+.comp-bar-num.atual{color:var(--navy);}
+.comp-legend{display:flex;gap:1rem;font-size:.68rem;color:var(--gray-400);margin-bottom:.75rem;}
+.comp-legend span{display:flex;align-items:center;gap:.3rem;}
+.comp-dot{width:8px;height:8px;border-radius:2px;}
+
+/* AGRADECIMENTO */
+.agrad{text-align:center;padding:2.5rem 1.5rem;}
+.agrad-emoji{font-size:3rem;margin-bottom:.75rem;}
+.agrad h2{font-size:1.3rem;font-weight:800;letter-spacing:-.02em;margin-bottom:.5rem;color:var(--navy);}
+.agrad p{font-size:.88rem;color:var(--gray-500);line-height:1.7;max-width:280px;margin:0 auto .75rem;}
+.agrad-box{background:var(--pale);border-radius:12px;padding:1rem;border:1px solid #C7DCFF;margin:1rem 0;text-align:left;}
+.agrad-box h4{font-size:.8rem;font-weight:700;color:var(--navy);margin-bottom:.3rem;}
+.agrad-box p{font-size:.78rem;color:var(--blue);line-height:1.55;}
 
 /* FEEDBACK */
-.stars{display:flex;gap:.4rem;margin-bottom:1rem;}
-.star{font-size:1.8rem;cursor:pointer;transition:transform .1s;}
-.star:hover,.star.on{transform:scale(1.15);}
-.feedback-textarea{width:100%;padding:.7rem .9rem;border-radius:var(--radius-sm);border:1.5px solid var(--gray-300);font-size:.85rem;font-family:inherit;resize:vertical;min-height:90px;outline:none;transition:border-color .2s;}
-.feedback-textarea:focus{border-color:var(--sky);}
+.stars{display:flex;gap:.35rem;margin:.5rem 0 .9rem;}
+.star{font-size:1.7rem;cursor:pointer;transition:transform .1s;line-height:1;}
+.star.on{transform:scale(1.1);}
+.fb-textarea{width:100%;padding:.65rem .85rem;border-radius:8px;border:1.5px solid var(--gray-200);font-size:.83rem;font-family:inherit;resize:vertical;min-height:80px;outline:none;transition:border-color .2s;}
+.fb-textarea:focus{border-color:var(--sky);}
 
 /* ADMIN */
-.adm-tbl{width:100%;border-collapse:collapse;font-size:.75rem;}
-.adm-tbl th{background:var(--navy);color:white;padding:.5rem .6rem;text-align:left;}
+.adm-tbl{width:100%;border-collapse:collapse;font-size:.73rem;}
+.adm-tbl th{background:var(--navy);color:white;padding:.45rem .6rem;text-align:left;}
 .adm-tbl td{padding:.4rem .6rem;border-bottom:1px solid var(--gray-100);}
 .adm-tbl tr:nth-child(even) td{background:var(--gray-50);}
-.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem;margin:1rem 0;}
-.stat-box{background:var(--pale);border-radius:var(--radius);padding:.75rem;text-align:center;}
-.stat-num{font-size:1.5rem;font-weight:800;color:var(--navy);}
-.stat-lbl{font-size:.68rem;color:var(--gray-500);}
-.tabs{display:flex;gap:.35rem;margin-bottom:1rem;overflow-x:auto;padding-bottom:.25rem;}
-.tab{padding:.4rem .85rem;border-radius:20px;font-size:.78rem;font-weight:600;cursor:pointer;border:1.5px solid var(--gray-300);background:white;color:var(--gray-500);white-space:nowrap;font-family:inherit;transition:all .2s;}
+.stat-row{display:grid;grid-template-columns:repeat(3,1fr);gap:.5rem;margin:1rem 0;}
+.stat-box{background:var(--pale);border-radius:10px;padding:.65rem;text-align:center;}
+.stat-num{font-size:1.4rem;font-weight:800;color:var(--navy);}
+.stat-lbl{font-size:.65rem;color:var(--gray-500);}
+.tabs{display:flex;gap:.3rem;margin-bottom:1rem;overflow-x:auto;}
+.tab{padding:.38rem .8rem;border-radius:20px;font-size:.75rem;font-weight:600;cursor:pointer;border:1.5px solid var(--gray-200);background:white;color:var(--gray-500);white-space:nowrap;font-family:inherit;}
 .tab.on{background:var(--navy);color:white;border-color:var(--navy);}
 `;
 
-// COMPONENTES BASE
 function Campo({label,children}){return <div className="field"><label>{label}</label>{children}</div>;}
 function Sel({value,onChange,opts,ph="Selecione..."}){
   return <select value={value||""} onChange={e=>onChange(e.target.value)}>
@@ -335,62 +365,55 @@ function Sel({value,onChange,opts,ph="Selecione..."}){
   </select>;
 }
 
-// MODAL DE VÍDEO
+// VIDEO MODAL
 function VideoModal({onClose}){
-  return <div className="video-modal" onClick={onClose}>
-    <div className="video-box" onClick={e=>e.stopPropagation()}>
-      <div className="video-header">
-        <h3>🎬 O que é o Senso de Coerência?</h3>
-        <button className="video-close" onClick={onClose}>✕</button>
+  return <div style={{position:"fixed",inset:0,background:"rgba(0,0,0,.7)",zIndex:200,display:"flex",alignItems:"center",justifyContent:"center",padding:"1rem"}} onClick={onClose}>
+    <div style={{background:"white",borderRadius:"16px",padding:"1.25rem",width:"100%",maxWidth:"400px"}} onClick={e=>e.stopPropagation()}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:"1rem"}}>
+        <h3 style={{fontSize:".92rem",fontWeight:700}}>🎬 O que é Senso de Coerência?</h3>
+        <button onClick={onClose} style={{background:"none",border:"none",fontSize:"1.1rem",cursor:"pointer",color:"var(--gray-500)"}}>✕</button>
       </div>
-      <div className="video-placeholder" onClick={()=>alert("Em breve! O vídeo será adicionado quando estiver disponível no YouTube.")}>
-        <div className="video-play">▶</div>
-        <div className="video-placeholder-text">
-          <strong>Vídeo explicativo</strong><br/>
-          Em breve — produção em andamento
-        </div>
+      <div style={{background:"linear-gradient(135deg,var(--navy),#1a3a6b)",borderRadius:"10px",aspectRatio:"16/9",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:".65rem",cursor:"pointer"}} onClick={()=>alert("Vídeo em produção — em breve disponível!")}>
+        <div style={{width:"52px",height:"52px",background:"rgba(255,255,255,.9)",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.3rem"}}>▶</div>
+        <p style={{color:"rgba(255,255,255,.75)",fontSize:".78rem",textAlign:"center",padding:"0 1rem"}}>Vídeo explicativo<br/><strong style={{color:"white"}}>Em breve</strong></p>
       </div>
-      <p className="video-note">📌 Assista antes de responder para entender melhor o que estamos avaliando.</p>
-      <div className="btn-row">
-        <button className="btn btn-p" onClick={onClose} style={{width:"100%",marginTop:".5rem"}}>Entendido, vamos começar →</button>
-      </div>
+      <p style={{fontSize:".73rem",color:"var(--gray-400)",textAlign:"center",marginTop:".65rem"}}>📌 Assista antes de responder para entender melhor o que avaliamos.</p>
+      <button className="btn btn-p btn-full" onClick={onClose} style={{marginTop:".75rem"}}>Entendido →</button>
     </div>
   </div>;
 }
 
 // TELA INICIAL
 function TelaInicio({onIniciar,onComoFunciona}){
-  const [video,setVideo] = useState(false);
+  const [video,setVideo]=useState(false);
   return <>
-    {video && <VideoModal onClose={()=>setVideo(false)}/>}
+    {video&&<VideoModal onClose={()=>setVideo(false)}/>}
     <div className="hero">
-      <div className="hero-badge">Para enfermeiros</div>
-      <h1 className="hero-title">Coerên<span>CIA</span></h1>
-      <p className="hero-sub">Avalie seu bem-estar e descubra estratégias personalizadas baseadas em evidências para fortalecer seu senso de coerência.</p>
+      <div className="hero-badge">🩺 Para enfermeiros</div>
+      <h1 className="hero-title">Coerên<em>CIA</em></h1>
+      <p className="hero-sub">Avalie seu bem-estar e receba estratégias personalizadas baseadas em evidências científicas.</p>
       <div className="hero-btns">
-        <button className="btn-hero-p" onClick={onIniciar}>🩺 Participar agora</button>
-        <button className="btn-hero-s" onClick={onComoFunciona}>Como funciona</button>
+        <button className="btn-hp" onClick={onIniciar}>Participar agora</button>
+        <button className="btn-hs" onClick={onComoFunciona}>Como funciona</button>
       </div>
     </div>
-    <div className="section-cards">
-      <div style={{padding:"1.5rem 0 .75rem"}}>
-        <h2 style={{fontSize:"1.1rem",fontWeight:800,letterSpacing:"-.02em",marginBottom:".1rem"}}>Explore antes de começar</h2>
-        <p style={{fontSize:".8rem",color:"var(--gray-500)"}}>Entenda o que vamos avaliar</p>
-      </div>
-      <div className="sec-card" onClick={()=>setVideo(true)}>
-        <div className="sec-card-icon" style={{background:"#EBF4FF"}}>🎬</div>
-        <div className="sec-card-body">
+    <div className="explore">
+      <h2>Explore antes de começar</h2>
+      <p>Entenda o que vamos avaliar</p>
+      <div className="explore-card" onClick={()=>setVideo(true)}>
+        <div className="explore-icon" style={{background:"#EBF4FF"}}>🎬</div>
+        <div className="explore-body">
           <h3>O que é Senso de Coerência?</h3>
-          <p>Conceito desenvolvido por Aaron Antonovsky que explica por que algumas pessoas resistem melhor ao estresse.</p>
-          <span className="sec-card-link">▶ Assistir vídeo introdutório</span>
+          <p>Conceito de Aaron Antonovsky que explica por que algumas pessoas resistem melhor ao estresse.</p>
+          <div className="explore-link">▶ Assistir vídeo introdutório</div>
         </div>
       </div>
-      <div className="sec-card" onClick={onComoFunciona}>
-        <div className="sec-card-icon" style={{background:"#E6F7F4"}}>📋</div>
-        <div className="sec-card-body">
+      <div className="explore-card" onClick={onComoFunciona}>
+        <div className="explore-icon" style={{background:"#E6F7F4"}}>📋</div>
+        <div className="explore-body">
           <h3>Como funciona a avaliação</h3>
-          <p>Entenda as etapas, o que será avaliado e o que você vai receber ao final.</p>
-          <span className="sec-card-link">→ Ver passo a passo</span>
+          <p>Veja as etapas, o que será avaliado e o que você receberá ao final.</p>
+          <div className="explore-link">→ Ver passo a passo</div>
         </div>
       </div>
     </div>
@@ -400,31 +423,28 @@ function TelaInicio({onIniciar,onComoFunciona}){
 // COMO FUNCIONA
 function TelaComoFunciona({onVoltar,onIniciar}){
   return <>
-    <div style={{background:":var(--navy)",padding:"1.25rem",background:"var(--navy)"}}>
-      <button onClick={onVoltar} style={{background:"none",border:"none",color:"rgba(255,255,255,.7)",cursor:"pointer",fontSize:".82rem",display:"flex",alignItems:"center",gap:".3rem",fontFamily:"inherit",marginBottom:".75rem"}}>← Voltar</button>
-      <h2 style={{fontSize:"1.5rem",fontWeight:800,color:"white",letterSpacing:"-.03em"}}>Como funciona</h2>
-      <p style={{fontSize:".85rem",color:"rgba(255,255,255,.65)",marginTop:".25rem"}}>Tudo que você precisa saber antes de começar.</p>
+    <div className="como-hero">
+      <button className="como-back" onClick={onVoltar}>← Voltar</button>
+      <h2>Como funciona</h2>
+      <p>Tudo que você precisa saber antes de começar.</p>
     </div>
-    <div style={{padding:"1.25rem"}}>
-      <div className="alert ai" style={{marginBottom:"1.25rem"}}>
-        🔒 Seus dados são <strong>completamente anônimos</strong>. Nome e data de nascimento nunca são armazenados — apenas um código gerado localmente.
+    <div className="como-body">
+      <div className="privacy-box">
+        <span>🔒</span>
+        <p>Seus dados são <strong>completamente anônimos</strong>. Nome e data de nascimento nunca são armazenados — apenas um código gerado localmente no seu dispositivo.</p>
       </div>
-      <div className="como-steps">
-        {[
-          {n:1,t:"Identifique-se anonimamente",d:"Informe nome e data de nascimento apenas para gerar seu código único. Esses dados não são salvos em nenhum servidor."},
-          {n:2,t:"Preencha seu perfil",d:"Dados sociodemográficos e profissionais coletados uma única vez para personalizar sua avaliação."},
-          {n:3,t:"Avalie seu bem-estar",d:"8 dimensões do bem-estar avaliadas em escala de 1 a 5. Rápido e intuitivo."},
-          {n:4,t:"Responda o questionário SOC-13",d:"13 questões sobre como você percebe e lida com situações da vida — apresentadas uma a uma."},
-          {n:5,t:"Receba seu diagnóstico personalizado",d:"Gerado por Inteligência Artificial com base nos seus resultados, com estratégias práticas e referências científicas."},
-          {n:6,t:"Acompanhe sua evolução",d:"Repita a avaliação em um segundo momento para ver como você evoluiu ao longo do tempo."},
-        ].map(s=><div key={s.n} className="step-card">
-          <div className="step-num">{s.n}</div>
-          <div className="step-text"><h4>{s.t}</h4><p>{s.d}</p></div>
-        </div>)}
-      </div>
-      <div style={{marginTop:"1.5rem"}}>
-        <button className="btn btn-p" onClick={onIniciar} style={{width:"100%"}}>🩺 Participar agora →</button>
-      </div>
+      {[
+        {n:1,t:"Identificação anônima",d:"Nome e data de nascimento geram um código único — não são salvos em nenhum servidor."},
+        {n:2,t:"Perfil (só no 1º acesso)",d:"Dados sociodemográficos e profissionais coletados uma vez para personalizar sua avaliação."},
+        {n:3,t:"Avaliação de bem-estar",d:"8 dimensões avaliadas de 1 a 5. Rápido e intuitivo."},
+        {n:4,t:"Questionário SOC-13",d:"13 questões sobre como você percebe e lida com situações da vida."},
+        {n:5,t:"Diagnóstico + estratégias",d:"Gerado por IA com estratégias práticas e referências científicas de bases indexadas."},
+        {n:6,t:"Retorno após intervenção",d:"Semanas depois, você responde novamente para comparar sua evolução."},
+      ].map(s=><div className="step-item" key={s.n}>
+        <div className="step-n">{s.n}</div>
+        <div className="step-txt"><h4>{s.t}</h4><p>{s.d}</p></div>
+      </div>)}
+      <button className="btn btn-p btn-full" style={{marginTop:".75rem"}} onClick={onIniciar}>🩺 Participar agora →</button>
     </div>
   </>;
 }
@@ -439,14 +459,14 @@ function TelaIdentificacao({onIdentify}){
     onIdentify(id);
   }
   return <div className="card">
-    <div className="card-eyebrow">Acesso anônimo</div>
-    <h2 className="card-title">Vamos começar</h2>
+    <div className="eyebrow">Acesso anônimo</div>
+    <h2 className="card-title">Vamos começar 👋</h2>
     <p className="card-body">Informe seus dados para gerar seu código único. Eles <strong>não serão armazenados</strong>.</p>
     {err&&<div className="alert ae">⚠️ {err}</div>}
-    <Campo label="Nome completo"><input value={nome} onChange={e=>setNome(e.target.value)} placeholder="Apenas para gerar seu código anônimo"/></Campo>
+    <Campo label="Nome completo"><input value={nome} onChange={e=>setNome(e.target.value)} placeholder="Apenas para gerar seu código"/></Campo>
     <Campo label="Data de nascimento"><input type="date" value={nasc} onChange={e=>setNasc(e.target.value)}/></Campo>
-    <div className="alert ai">🔒 Nome e data não são armazenados. Apenas um código de 16 caracteres é gerado localmente.</div>
-    <div className="btn-row"><button className="btn btn-p" onClick={go} disabled={loading}>{loading?"Identificando...":"Continuar →"}</button></div>
+    <div className="alert ai">🔒 Seus dados ficam só no seu dispositivo. Nenhum servidor recebe seu nome.</div>
+    <div className="btn-row"><button className="btn btn-p" onClick={go} disabled={loading}>{loading?"...":"Continuar →"}</button></div>
   </div>;
 }
 
@@ -454,20 +474,20 @@ function TelaIdentificacao({onIdentify}){
 function TelaTCLE({onConsentir,onRecusar}){
   const [leu,setLeu]=useState(false);
   return <div className="card">
-    <div className="card-eyebrow">Consentimento</div>
+    <div className="eyebrow">Consentimento</div>
     <h2 className="card-title">Termo de Consentimento</h2>
     <div className="tcle-box" onScroll={e=>{if(e.target.scrollTop+e.target.clientHeight>=e.target.scrollHeight-10)setLeu(true);}}>
       <strong>TERMO DE CONSENTIMENTO LIVRE E ESCLARECIDO (TCLE)</strong><br/><br/>
       Você está sendo convidado(a) a participar voluntariamente de uma pesquisa sobre bem-estar e senso de coerência em enfermeiros.<br/><br/>
       <strong>Objetivo:</strong> Avaliar o Senso de Coerência de profissionais de enfermagem e propor estratégias personalizadas de bem-estar.<br/><br/>
-      <strong>Procedimentos:</strong> Você responderá a questões sobre seu perfil, uma avaliação de bem-estar e um questionário com 13 questões.<br/><br/>
+      <strong>Procedimentos:</strong> Você responderá a questões sobre seu perfil, uma avaliação de bem-estar e 13 questões sobre como percebe e lida com a vida.<br/><br/>
       <strong>Confidencialidade:</strong> Seus dados são identificados apenas por um código anônimo gerado localmente. Nome e data de nascimento NUNCA são armazenados.<br/><br/>
       <strong>Riscos:</strong> Mínimos. Você pode pausar ou desistir a qualquer momento sem qualquer prejuízo.<br/><br/>
       <strong>Benefícios:</strong> Receber um diagnóstico personalizado com estratégias práticas para melhorar seu bem-estar.<br/><br/>
       <strong>Participação voluntária:</strong> Inteiramente voluntária. A recusa não acarreta nenhum prejuízo.<br/><br/>
-      Ao clicar em "Concordo", você confirma que leu este termo e consente em participar da pesquisa.
+      Ao clicar em "Concordo", você confirma que leu este termo e consente em participar.
     </div>
-    {!leu&&<div className="alert aw">📜 Role o texto até o final para habilitar a confirmação.</div>}
+    {!leu&&<div className="alert aw">📜 Role o texto até o final para continuar.</div>}
     <div className="btn-row">
       <button className="btn btn-d" onClick={onRecusar}>Não concordo</button>
       <button className="btn btn-p" onClick={onConsentir} disabled={!leu}>Concordo →</button>
@@ -481,19 +501,19 @@ function TelaPerfil({onSalvar}){
   const set=(k,v)=>setD(p=>({...p,[k]:v}));
   const obrig=["idade","sexo","identidade","raca","estado_civil","filhos","renda","pessoas_residencia","categoria","tempo_profissao","turno","carga_horaria","funcao","setor","vinculo","tabagismo","alcool"];
   function go(){
-    if(obrig.some(k=>!d[k])){setErr("Por favor, preencha todos os campos antes de continuar.");return;}
+    if(obrig.some(k=>!d[k])){setErr("Preencha todos os campos para continuar.");return;}
     setErr("");onSalvar({...d,filhos:d.filhos==="Sim"});
   }
   return <div className="card">
-    <div className="card-eyebrow">Etapa 1 de 4</div>
+    <div className="eyebrow">Etapa 1 de 4</div>
     <h2 className="card-title">Seu Perfil</h2>
-    <p className="card-body">Coletado uma única vez para personalizar sua avaliação.</p>
+    <p className="card-body">Coletado uma única vez. Nas próximas visitas você vai direto para o questionário.</p>
     {err&&<div className="alert ae">⚠️ {err}</div>}
-    <div className="section-sep">Dados Pessoais</div>
-    <div className="grid2">
+    <div className="sep">Dados Pessoais</div>
+    <div className="g2">
       <Campo label="Faixa etária"><Sel value={d.idade} onChange={v=>set("idade",v)} opts={OPT_IDADE}/></Campo>
       <Campo label="Sexo biológico"><Sel value={d.sexo} onChange={v=>set("sexo",v)} opts={OPT_SEXO}/></Campo>
-      <Campo label="Como você se identifica?"><Sel value={d.identidade} onChange={v=>set("identidade",v)} opts={OPT_IDENTIDADE}/></Campo>
+      <Campo label="Identidade de gênero"><Sel value={d.identidade} onChange={v=>set("identidade",v)} opts={OPT_IDENTIDADE}/></Campo>
       <Campo label="Raça / Cor (IBGE)"><Sel value={d.raca} onChange={v=>set("raca",v)} opts={OPT_RACA}/></Campo>
       <Campo label="Estado civil"><Sel value={d.estado_civil} onChange={v=>set("estado_civil",v)} opts={OPT_ESTADO_CIVIL}/></Campo>
       <Campo label="Tem filhos?"><Sel value={d.filhos} onChange={v=>set("filhos",v)} opts={["Sim","Não"]}/></Campo>
@@ -502,8 +522,8 @@ function TelaPerfil({onSalvar}){
         <input type="number" min="1" max="20" value={d.pessoas_residencia||""} onChange={e=>set("pessoas_residencia",e.target.value)} placeholder="Ex: 3"/>
       </Campo>
     </div>
-    <div className="section-sep">Vida Profissional</div>
-    <div className="grid2">
+    <div className="sep">Vida Profissional</div>
+    <div className="g2">
       <Campo label="Categoria profissional"><Sel value={d.categoria} onChange={v=>set("categoria",v)} opts={OPT_CATEGORIA}/></Campo>
       <Campo label="Tempo na enfermagem"><Sel value={d.tempo_profissao} onChange={v=>set("tempo_profissao",v)} opts={OPT_TEMPO_PROF}/></Campo>
       <Campo label="Turno de trabalho"><Sel value={d.turno} onChange={v=>set("turno",v)} opts={OPT_TURNO}/></Campo>
@@ -512,10 +532,10 @@ function TelaPerfil({onSalvar}){
       <Campo label="Setor de atuação"><Sel value={d.setor} onChange={v=>set("setor",v)} opts={OPT_SETOR}/></Campo>
       <Campo label="Vínculo empregatício"><Sel value={d.vinculo} onChange={v=>set("vinculo",v)} opts={OPT_VINCULO}/></Campo>
     </div>
-    <div className="section-sep">Saúde e Estilo de Vida</div>
-    <div className="grid2">
-      <Campo label="Tabagismo (últimos 12 meses)"><Sel value={d.tabagismo} onChange={v=>set("tabagismo",v)} opts={OPT_FREQ}/></Campo>
-      <Campo label="Consumo de álcool (últimos 12 meses)"><Sel value={d.alcool} onChange={v=>set("alcool",v)} opts={OPT_FREQ}/></Campo>
+    <div className="sep">Saúde e Estilo de Vida</div>
+    <div className="g2">
+      <Campo label="Tabagismo (12 meses)"><Sel value={d.tabagismo} onChange={v=>set("tabagismo",v)} opts={OPT_FREQ}/></Campo>
+      <Campo label="Álcool (12 meses)"><Sel value={d.alcool} onChange={v=>set("alcool",v)} opts={OPT_FREQ}/></Campo>
     </div>
     <div className="btn-row"><button className="btn btn-p" onClick={go}>Salvar e continuar →</button></div>
   </div>;
@@ -525,23 +545,19 @@ function TelaPerfil({onSalvar}){
 function TelaBemestar({onSalvar}){
   const [vals,setVals]=useState({});const [err,setErr]=useState("");
   function go(){
-    if(DIMS_BW.some(d=>!vals[d.key])){setErr("Avalie todas as dimensões antes de continuar.");return;}
+    if(DIMS_BW.some(d=>!vals[d.key])){setErr("Avalie todas as dimensões para continuar.");return;}
     setErr("");onSalvar(vals);
   }
   return <div className="card">
-    <div className="card-eyebrow">Etapa 2 de 4</div>
-    <h2 className="card-title">Avaliação de Bem-estar</h2>
-    <p className="card-body">Como você avalia cada dimensão da sua vida atualmente?</p>
+    <div className="eyebrow">Etapa 2 de 4</div>
+    <h2 className="card-title">Bem-estar hoje</h2>
+    <p className="card-body">Como você avalia cada dimensão da sua vida agora?</p>
     {err&&<div className="alert ae">⚠️ {err}</div>}
     {DIMS_BW.map(d=><div className="bw-item" key={d.key}>
-      <div className="bw-header">
-        <span className="bw-emoji">{d.emoji}</span>
-        <span className="bw-label">{d.label}</span>
-      </div>
+      <div className="bw-hdr"><span>{d.emoji}</span><span className="bw-lbl">{d.label}</span></div>
       <div className="bw-opts">
         {LIKERT_BW.map((v,i)=><button key={v} className={`bw-btn${vals[d.key]===i+1?" sel":""}`} onClick={()=>setVals(p=>({...p,[d.key]:i+1}))}>
-          <div>{v}</div>
-          <div style={{fontSize:".6rem",opacity:.7}}>{LIKERT_LABELS[i]}</div>
+          <div>{v}</div><div style={{fontSize:".58rem",opacity:.7}}>{LIKERT_LABELS[i]}</div>
         </button>)}
       </div>
     </div>)}
@@ -555,21 +571,21 @@ function TelaSOC({respostas,onChange,pergAtual,onNext,onPrev}){
   const prog=((pergAtual+1)/13)*100;
   return <>
     <div className="prog-wrap">
-      <div className="prog-label"><span>Pergunta {pergAtual+1} de 13</span><span>{Math.round(prog)}%</span></div>
+      <div className="prog-meta"><span>Pergunta {pergAtual+1} de 13</span><span>{Math.round(prog)}%</span></div>
       <div className="prog"><div className="prog-fill" style={{width:`${prog}%`}}/></div>
     </div>
     <div className="card">
-      <div className="card-eyebrow">Etapa 3 de 4 — Questionário SOC</div>
+      <div className="eyebrow">Etapa 3 de 4 — Questionário SOC</div>
       {pergAtual===0&&<div className="soc-instrucoes">
         <h4>📋 Instruções</h4>
-        <p>A seguir, você encontrará 13 questões relacionadas a diferentes aspectos da vida. Cada pergunta possui uma escala de 1 a 7. Selecione o número que melhor representa seus sentimentos, percepções ou experiências.</p>
+        <p>13 questões sobre como você percebe e lida com situações da vida. Escala de 1 a 7. Selecione o número que melhor representa sua experiência.</p>
       </div>}
-      <div className="soc-ancora">💭 Pensando na sua vida como um todo — no trabalho, nas relações pessoais e em você mesmo(a)...</div>
-      <div className="soc-pergunta">{p.texto}</div>
+      <div className="soc-ancora">💭 Pensando na sua vida como um todo — trabalho, relações pessoais e você mesmo(a)...</div>
+      <div className="soc-q">{p.texto}</div>
       <div className="soc-scale">
         {[1,2,3,4,5,6,7].map(v=><button key={v} className={`soc-btn${respostas[p.num]===v?" sel":""}`} onClick={()=>onChange(p.num,v)}>{v}</button>)}
       </div>
-      <div className="soc-anchors"><span>1 – {p.min}</span><span>7 – {p.max}</span></div>
+      <div className="soc-anch"><span>1 – {p.min}</span><span>7 – {p.max}</span></div>
       <div className="btn-row">
         {pergAtual>0&&<button className="btn btn-s" onClick={onPrev}>← Voltar</button>}
         <button className="btn btn-p" disabled={!respostas[p.num]} onClick={onNext}>{pergAtual<12?"Próxima →":"Ver resultado →"}</button>
@@ -578,120 +594,177 @@ function TelaSOC({respostas,onChange,pergAtual,onNext,onPrev}){
   </>;
 }
 
-// RESULTADO
-function TelaResultado({soc,diagnostico,bemestar,historico,onRetestar,onFeedback}){
-  const cc={Alto:"badge-alto",Médio:"badge-medio",Baixo:"badge-baixo"}[soc.classificacao]||"badge-medio";
-  const intervs=INTERVENCOES[soc.dimensao_foco]||INTERVENCOES.significancia;
-  const [expandido,setExpandido]=useState(null);
+// TELA DE RETORNO (2º momento)
+function TelaRetorno({onContinuar}){
+  const [adesao,setAdesao]=useState("");const [sentiu,setSentiu]=useState("");
+  const opcoes_adesao=[
+    {val:"total",emoji:"✅",titulo:"Realizei todas as estratégias",desc:"Segui as recomendações durante o período"},
+    {val:"parcial",emoji:"🔄",titulo:"Realizei parcialmente",desc:"Fiz algumas, mas não todas as estratégias"},
+    {val:"nenhuma",emoji:"❌",titulo:"Não consegui realizar",desc:"Não foi possível praticar as estratégias"},
+  ];
+  const opcoes_sentiu=[
+    {val:"sim",emoji:"😊",titulo:"Sim, percebi melhora",desc:"Notei diferença no meu dia a dia"},
+    {val:"talvez",emoji:"🤔",titulo:"Talvez, não tenho certeza",desc:"Algumas mudanças, mas difícil dizer"},
+    {val:"nao",emoji:"😐",titulo:"Não percebi diferença",desc:"As coisas continuaram como estavam"},
+  ];
   return <>
-    <div className="resultado-hero">
-      <div style={{fontSize:".75rem",opacity:.6,marginBottom:".25rem",textTransform:"uppercase",letterSpacing:".06em"}}>Seu resultado</div>
-      <div className="resultado-num">{soc.soc_total}</div>
-      <div className="resultado-max">de 91 pontos</div>
-      <span className={`resultado-badge ${cc}`}>SOC {soc.classificacao}</span>
-      <div style={{fontSize:".78rem",opacity:.7}}>Foco prioritário: <strong style={{textTransform:"capitalize"}}>{soc.dimensao_foco}</strong></div>
+    <div className="retorno-hero">
+      <div className="retorno-emoji">👋</div>
+      <h2>Que bom te ver de volta!</h2>
+      <p>Nas últimas semanas você recebeu estratégias personalizadas. Antes de responder novamente, queremos saber como foi.</p>
+    </div>
+    <div className="card">
+      <div className="eyebrow">Adesão às estratégias</div>
+      <h2 className="card-title">Você conseguiu praticar?</h2>
+      {opcoes_adesao.map(o=><button key={o.val} className={`opcao-btn${adesao===o.val?" sel":""}`} onClick={()=>setAdesao(o.val)}>
+        <span className="opcao-emoji">{o.emoji}</span>
+        <div className="opcao-txt"><h4>{o.titulo}</h4><p>{o.desc}</p></div>
+      </button>)}
+    </div>
+    <div className="card">
+      <div className="eyebrow">Percepção de melhora</div>
+      <h2 className="card-title">Sentiu alguma diferença?</h2>
+      {opcoes_sentiu.map(o=><button key={o.val} className={`opcao-btn${sentiu===o.val?" sel":""}`} onClick={()=>setSentiu(o.val)}>
+        <span className="opcao-emoji">{o.emoji}</span>
+        <div className="opcao-txt"><h4>{o.titulo}</h4><p>{o.desc}</p></div>
+      </button>)}
+    </div>
+    <div style={{padding:"0 1.25rem 1rem"}}>
+      <button className="btn btn-p btn-full" disabled={!adesao||!sentiu} onClick={()=>onContinuar({adesao,sentiu})}>
+        Responder o questionário →
+      </button>
+    </div>
+  </>;
+}
+
+// RESULTADO
+function TelaResultado({soc,socAnterior,diagnostico,historico,onRetestar,onFeedback}){
+  const cc={Alto:"b-alto",Médio:"b-medio",Baixo:"b-baixo"}[soc.classificacao]||"b-medio";
+  const intervs=INTERVENCOES[soc.dimensao_foco]||INTERVENCOES.significancia;
+  const delta = socAnterior ? soc.soc_total - socAnterior.soc_total : null;
+
+  return <>
+    <div className="res-hero">
+      <div style={{fontSize:".65rem",color:"rgba(255,255,255,.45)",textTransform:"uppercase",letterSpacing:".07em",marginBottom:".2rem"}}>Seu resultado</div>
+      <div className="res-num">{soc.soc_total}</div>
+      <div className="res-de">de 91 pontos</div>
+      <span className={`res-badge ${cc}`}>SOC {soc.classificacao}</span>
+      {delta!==null&&<div style={{fontSize:".78rem",color:"rgba(255,255,255,.6)",marginBottom:".3rem"}}>
+        {delta>0?`📈 +${delta} pontos em relação à avaliação anterior`:delta<0?`📉 ${delta} pontos em relação à avaliação anterior`:"= Mesmo resultado que antes"}
+      </div>}
+      <div className="res-foco">Foco prioritário: <strong>{soc.dimensao_foco}</strong></div>
     </div>
 
-    <div className="score-grid">
+    <div className="score-grid" style={{marginTop:"0"}}>
       {[{k:"compreensibilidade",l:"Compreensibilidade",m:49},{k:"maneabilidade",l:"Maneabilidade",m:35},{k:"significancia",l:"Significância",m:7}].map(d=><div className="score-card" key={d.k}>
-        <div className="score-name">{d.l}</div>
-        <div><span className="score-num">{soc[d.k]}</span><span className="score-max"> /{d.m}</span></div>
-        <div className="score-bar"><div className="score-fill" style={{width:`${(soc[d.k]/d.m)*100}%`}}/></div>
+        <div className="sc-name">{d.l}</div>
+        <div><span className="sc-num">{soc[d.k]}</span><span className="sc-max"> /{d.m}</span></div>
+        <div className="sc-bar"><div className="sc-fill" style={{width:`${(soc[d.k]/d.m)*100}%`}}/></div>
       </div>)}
-      <div className="score-card dark">
-        <div className="score-name">Foco prioritário</div>
-        <div className="foco-label">{soc.dimensao_foco}</div>
-        <div style={{fontSize:".7rem",opacity:.5,marginTop:".2rem"}}>Dimensão mais baixa</div>
+      <div className="score-card dk">
+        <div className="sc-name">Foco prioritário</div>
+        <div className="foco-val">{soc.dimensao_foco}</div>
+        <div style={{fontSize:".65rem",color:"rgba(255,255,255,.4)",marginTop:".15rem"}}>dimensão mais baixa</div>
       </div>
     </div>
 
-    <div className="card">
-      <div className="card-eyebrow">Diagnóstico personalizado</div>
-      <h2 className="card-title">Sua Avaliação</h2>
-      {diagnostico?<div className="diag-text">{diagnostico}</div>:<div className="spin"/>}
-    </div>
-
-    <div className="card">
-      <div className="card-eyebrow">Estratégias para você</div>
-      <h2 className="card-title">Intervenções Sugeridas</h2>
-      <p className="card-body">Com base na sua dimensão prioritária ({soc.dimensao_foco}), estas estratégias são embasadas em evidências científicas.</p>
-      {intervs.map((iv,i)=><div className="intervencao-card" key={i}>
-        <div className="int-nome">💡 {iv.nome}</div>
-        <div className="int-como-label">Como fazer</div>
-        <div className="int-como">{iv.como}</div>
-        <div className="int-porque-label">Por que ajuda</div>
-        <div className="int-porque">{iv.porque}</div>
-        <div className="int-refs">
-          <div className="int-refs-title">📚 Saiba mais — Referências científicas</div>
-          {iv.refs.map((ref,j)=><div className="int-ref" key={j}>
-            <div className="int-ref-titulo">{ref.titulo}</div>
-            <div className="int-ref-meta">{ref.autores} ({ref.ano}) · {ref.base}</div>
-            <a className="int-ref-link" href={ref.url} target="_blank" rel="noopener noreferrer">🔗 Acessar artigo →</a>
-          </div>)}
+    {historico&&historico.length>1&&<div className="card" style={{marginTop:"1rem"}}>
+      <div className="eyebrow">Evolução</div>
+      <h2 className="card-title">Sua Jornada</h2>
+      {historico.slice(-6).map((s,i)=><div className="comp-row" key={i}>
+        <div className="comp-lbl">{new Date(s.data_sessao).toLocaleDateString("pt-BR",{day:"2-digit",month:"short"})}</div>
+        <div style={{flex:1,display:"flex",alignItems:"center",gap:".4rem"}}>
+          <div style={{flex:1,height:"6px",background:"var(--gray-200)",borderRadius:"3px"}}>
+            <div style={{height:"100%",borderRadius:"3px",background:i===historico.slice(-6).length-1?"var(--sky)":"var(--gray-400)",width:`${(s.soc_total/91)*100}%`,transition:"width .6s"}}/>
+          </div>
+          <div style={{fontSize:".7rem",fontWeight:700,color:i===historico.slice(-6).length-1?"var(--navy)":"var(--gray-400)",minWidth:"20px"}}>{s.soc_total}</div>
         </div>
-        <button style={{background:"none",border:"none",color:"var(--sky)",fontSize:".75rem",fontWeight:600,cursor:"pointer",marginTop:".5rem",fontFamily:"inherit",padding:0}} onClick={()=>setExpandido(expandido===i?null:i)}>
-          {expandido===i?"▲ Ocultar detalhes":"▼ Ver mais detalhes"}
-        </button>
-      </div>)}
-    </div>
-
-    {historico&&historico.length>1&&<div className="card">
-      <div className="card-eyebrow">Acompanhamento</div>
-      <h2 className="card-title">Sua Evolução</h2>
-      {historico.slice(-8).map((s,i)=><div className="bar-row" key={i}>
-        <div className="bar-lbl">{new Date(s.data_sessao).toLocaleDateString("pt-BR",{day:"2-digit",month:"short"})}</div>
-        <div className="bar-bg"><div className="bar-val" style={{width:`${(s.soc_total/91)*100}%`}}/></div>
-        <div className="bar-num">{s.soc_total}</div>
       </div>)}
     </div>}
 
     <div className="card">
-      <div className="btn-row" style={{justifyContent:"stretch",flexDirection:"column"}}>
-        <button className="btn btn-s" onClick={onFeedback} style={{width:"100%"}}>⭐ Avaliar o aplicativo</button>
-        <button className="btn btn-p" onClick={onRetestar} style={{width:"100%"}}>↺ Refazer questionário</button>
-      </div>
+      <div className="eyebrow">Diagnóstico</div>
+      <h2 className="card-title">Sua Avaliação</h2>
+      {diagnostico?<Markdown text={diagnostico}/>:<div className="spin"/>}
+    </div>
+
+    <div className="card">
+      <div className="eyebrow">Estratégias para você</div>
+      <h2 className="card-title">Intervenções Sugeridas</h2>
+      <p className="card-body">Para fortalecer sua <strong style={{textTransform:"capitalize"}}>{soc.dimensao_foco}</strong>, pratique ao longo das próximas 2 semanas.</p>
+      {intervs.map((iv,i)=><div className="int-card" key={i}>
+        <div className="int-top">
+          <div className="int-nome">{iv.emoji} {iv.nome}</div>
+        </div>
+        <div className="int-posologia">⏱ {iv.posologia}</div>
+        <div className="int-lbl azul">Como fazer</div>
+        <div className="int-txt">{iv.como}</div>
+        <div className="int-lbl verde">Por que ajuda</div>
+        <div className="int-txt">{iv.porque}</div>
+        <div className="int-refs">
+          <div className="int-refs-title">📚 Saiba mais</div>
+          {iv.refs.map((ref,j)=><div className="int-ref" key={j}>
+            <div className="int-ref-t">{ref.titulo}</div>
+            <div className="int-ref-m">{ref.autores} ({ref.ano}) · {ref.base}</div>
+            <a className="int-ref-a" href={ref.url} target="_blank" rel="noopener noreferrer">🔗 Acessar artigo →</a>
+          </div>)}
+        </div>
+      </div>)}
+    </div>
+
+    <div style={{padding:"0 1.25rem 1rem",display:"flex",flexDirection:"column",gap:".5rem"}}>
+      <button className="btn btn-s btn-full" onClick={onFeedback}>⭐ Avaliar o aplicativo</button>
+      <button className="btn btn-p btn-full" onClick={onRetestar}>↺ Refazer avaliação</button>
     </div>
   </>;
+}
+
+// AGRADECIMENTO FINAL
+function TelaAgradecimento({onVoltar}){
+  return <div className="card">
+    <div className="agrad">
+      <div className="agrad-emoji">🌟</div>
+      <h2>Muito obrigada pela sua participação!</h2>
+      <p>Você concluiu as duas etapas da pesquisa. Sua contribuição é fundamental para entendermos melhor o bem-estar dos profissionais de enfermagem.</p>
+      <div className="agrad-box">
+        <h4>💙 Uma palavra antes de encerrar</h4>
+        <p>Cuidar de pessoas exige muito de quem cuida. Esperamos que esta experiência tenha sido um momento para você também se olhar. As estratégias que recebeu foram desenvolvidas com base em evidências científicas — elas funcionam, e você merece experimentá-las.</p>
+      </div>
+      <p style={{fontSize:".8rem",color:"var(--gray-400)"}}>Esta pesquisa é um teste de usabilidade. Seus dados foram registrados com segurança e contribuirão com a ciência.</p>
+      <button className="btn btn-s" onClick={onVoltar} style={{marginTop:".5rem"}}>← Voltar ao início</button>
+    </div>
+  </div>;
 }
 
 // FEEDBACK
 function TelaFeedback({onSalvar,onPular}){
   const [nota,setNota]=useState(0);const [hover,setHover]=useState(0);const [texto,setTexto]=useState("");const [ajudou,setAjudou]=useState("");const [salvo,setSalvo]=useState(false);
   async function go(){
-    if(!nota){alert("Por favor, selecione uma nota em estrelas.");return;}
+    if(!nota){alert("Selecione uma nota em estrelas.");return;}
     try{await sb("POST","feedbacks",{nota,texto,ajudou,criado_em:new Date().toISOString()});}catch{}
     setSalvo(true);
-    setTimeout(onPular,2000);
+    setTimeout(()=>onSalvar(),1800);
   }
-  if(salvo)return <div className="card" style={{textAlign:"center"}}>
-    <div style={{fontSize:"3rem",marginBottom:".5rem"}}>🙏</div>
-    <h2 className="card-title">Obrigada pelo feedback!</h2>
-    <p className="card-body">Sua opinião é fundamental para melhorar este aplicativo.</p>
+  if(salvo)return <div className="card" style={{textAlign:"center",padding:"2rem"}}>
+    <div style={{fontSize:"2.5rem",marginBottom:".5rem"}}>🙏</div>
+    <h2 className="card-title">Obrigada!</h2>
+    <p className="card-body">Sua avaliação foi registrada com sucesso.</p>
   </div>;
   return <div className="card">
-    <div className="card-eyebrow">Sua opinião importa</div>
+    <div className="eyebrow">Sua opinião importa</div>
     <h2 className="card-title">Avalie o CoerêncIA</h2>
-    <p className="card-body">Como foi sua experiência com o aplicativo?</p>
-    <div style={{marginBottom:"1rem"}}>
-      <div style={{fontSize:".78rem",fontWeight:600,color:"var(--gray-700)",marginBottom:".4rem"}}>Nota geral</div>
-      <div className="stars">
-        {[1,2,3,4,5].map(s=><span key={s} className={`star${s<=(hover||nota)?" on":""}`}
-          onClick={()=>setNota(s)} onMouseEnter={()=>setHover(s)} onMouseLeave={()=>setHover(0)}>
-          {s<=(hover||nota)?"⭐":"☆"}
-        </span>)}
-      </div>
+    <p className="card-body">Como foi sua experiência?</p>
+    <div style={{fontSize:".75rem",fontWeight:600,color:"var(--gray-700)",marginBottom:".3rem"}}>Nota geral</div>
+    <div className="stars">
+      {[1,2,3,4,5].map(s=><span key={s} className={`star${s<=(hover||nota)?" on":""}`} onClick={()=>setNota(s)} onMouseEnter={()=>setHover(s)} onMouseLeave={()=>setHover(0)}>{s<=(hover||nota)?"⭐":"☆"}</span>)}
     </div>
-    <div className="field">
-      <label>O aplicativo te ajudou de alguma forma?</label>
-      <Sel value={ajudou} onChange={setAjudou} opts={["Sim, muito","Sim, um pouco","Neutro","Não muito","Não"]}/>
-    </div>
-    <div className="field">
-      <label>Comentários e sugestões (opcional)</label>
-      <textarea className="feedback-textarea" value={texto} onChange={e=>setTexto(e.target.value)} placeholder="Conte o que achou, o que poderia melhorar..."/>
-    </div>
+    <Campo label="O aplicativo te ajudou?"><Sel value={ajudou} onChange={setAjudou} opts={["Sim, muito","Sim, um pouco","Neutro","Não muito","Não"]}/></Campo>
+    <Campo label="Comentários (opcional)">
+      <textarea className="fb-textarea" value={texto} onChange={e=>setTexto(e.target.value)} placeholder="O que achou? O que poderia melhorar?"/>
+    </Campo>
     <div className="btn-row">
       <button className="btn btn-s" onClick={onPular}>Pular</button>
-      <button className="btn btn-p" onClick={go}>Enviar avaliação →</button>
+      <button className="btn btn-p" onClick={go}>Enviar →</button>
     </div>
   </div>;
 }
@@ -709,7 +782,7 @@ function TelaAdmin({onVoltar}){
       setDados(s||[]);
       if(s&&s.length){
         const totais=s.map(x=>x.soc_total).filter(Boolean);
-        const media=totais.reduce((a,b)=>a+b,0)/totais.length;
+        const media=totais.length?totais.reduce((a,b)=>a+b,0)/totais.length:0;
         const dist={Alto:0,Médio:0,Baixo:0};
         s.forEach(x=>{if(x.classificacao)dist[x.classificacao]++;});
         setStats({participantes:new Set(s.map(x=>x.usuario_id)).size,sessoes:s.length,media:Math.round(media),dist});
@@ -722,7 +795,7 @@ function TelaAdmin({onVoltar}){
     const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([`${cab}\n${corpo}`],{type:"text/csv"}));a.download="coerencia_dados.csv";a.click();
   }
   if(!auth)return <div className="card">
-    <div className="card-eyebrow">Acesso restrito</div>
+    <div className="eyebrow">Acesso restrito</div>
     <h2 className="card-title">Painel do Pesquisador</h2>
     <Campo label="Senha"><input type="password" value={senha} onChange={e=>setSenha(e.target.value)} onKeyDown={e=>e.key==="Enter"&&autenticar()}/></Campo>
     <div className="btn-row">
@@ -731,11 +804,11 @@ function TelaAdmin({onVoltar}){
     </div>
   </div>;
   return <>
-    <div className="card" style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginBottom:0}}>
-      <div><div className="card-eyebrow">Pesquisador</div><h2 className="card-title" style={{marginBottom:0}}>Painel de Dados</h2></div>
-      <div style={{display:"flex",gap:".4rem"}}>
-        <button className="btn btn-s" style={{fontSize:".75rem",padding:".5rem .8rem"}} onClick={exportarCSV}>⬇ CSV</button>
-        <button className="btn btn-s" style={{fontSize:".75rem",padding:".5rem .8rem"}} onClick={onVoltar}>← Sair</button>
+    <div className="card" style={{display:"flex",justifyContent:"space-between",alignItems:"center"}}>
+      <div><div className="eyebrow">Pesquisador</div><h2 className="card-title" style={{marginBottom:0}}>Painel de Dados</h2></div>
+      <div style={{display:"flex",gap:".35rem"}}>
+        <button className="btn btn-s" style={{fontSize:".73rem",padding:".45rem .7rem"}} onClick={exportarCSV}>⬇ CSV</button>
+        <button className="btn btn-s" style={{fontSize:".73rem",padding:".45rem .7rem"}} onClick={onVoltar}>← Sair</button>
       </div>
     </div>
     <div style={{padding:"0 1.25rem 1rem"}}>
@@ -749,10 +822,12 @@ function TelaAdmin({onVoltar}){
           <div className="stat-box"><div className="stat-num">{stats.sessoes}</div><div className="stat-lbl">Sessões</div></div>
           <div className="stat-box"><div className="stat-num">{stats.media}</div><div className="stat-lbl">Média SOC</div></div>
         </div>
-        {Object.entries(stats.dist).map(([k,v])=><div className="bar-row" key={k}>
-          <div className="bar-lbl">{k}</div>
-          <div className="bar-bg"><div className="bar-val" style={{width:`${stats.sessoes?(v/stats.sessoes)*100:0}%`}}/></div>
-          <div className="bar-num">{v}</div>
+        {Object.entries(stats.dist).map(([k,v])=><div style={{display:"flex",alignItems:"center",gap:".6rem",marginBottom:".4rem"}} key={k}>
+          <div style={{fontSize:".72rem",color:"var(--gray-500)",minWidth:"60px"}}>{k}</div>
+          <div style={{flex:1,height:"6px",background:"var(--gray-200)",borderRadius:"3px"}}>
+            <div style={{height:"100%",borderRadius:"3px",background:"var(--sky)",width:`${stats.sessoes?(v/stats.sessoes)*100:0}%`}}/>
+          </div>
+          <div style={{fontSize:".72rem",fontWeight:700,color:"var(--navy)",minWidth:"20px"}}>{v}</div>
         </div>)}
       </>}
       {aba==="dados"&&<div style={{overflowX:"auto"}}>
@@ -781,6 +856,7 @@ export default function App(){
   const [pergAtual,setPergAtual]=useState(0);
   const [respostas,setRespostas]=useState({});
   const [resultadoSOC,setResultadoSOC]=useState(null);
+  const [socAnterior,setSocAnterior]=useState(null);
   const [diagnostico,setDiagnostico]=useState(null);
   const [historico,setHistorico]=useState([]);
   const [loading,setLoading]=useState(false);
@@ -796,16 +872,25 @@ export default function App(){
         setPerfil(u);setPrimeiroAcesso(false);
         const sess=await sb("GET",`sessoes?usuario_id=eq.${id}&order=data_sessao.asc`);
         setHistorico(sess||[]);
-        setTela("bemestar");
-      }else{setPrimeiroAcesso(true);setTela("tcle");}
-    }catch{setErro("Erro ao verificar participante. Verifique as configurações do Supabase.");}
+        // Se já tem sessão anterior, guardar o último resultado para comparação
+        if(sess&&sess.length>0){
+          setSocAnterior(sess[sess.length-1]);
+          setTela("retorno"); // 2º momento — pular perfil, mostrar tela de retorno
+        }else{
+          setTela("bemestar"); // 1º momento
+        }
+      }else{
+        setPrimeiroAcesso(true);
+        setTela("tcle");
+      }
+    }catch{setErro("Erro ao verificar participante. Verifique as configurações.");}
     finally{setLoading(false);}
   }
 
   async function handleConsentir(){
     try{
       if(primeiroAcesso)await sb("POST","usuarios",{id:userId,consentimento:true,data_consentimento:new Date().toISOString()});
-      else await sb("PATCH",`usuarios?id=eq.${userId}`,{consentimento:true,data_consentimento:new Date().toISOString()});
+      else await sb("PATCH",`usuarios?id=eq.${userId}`,{consentimento:true});
     }catch{}
     setTela("perfil");
   }
@@ -815,6 +900,14 @@ export default function App(){
       const payload={...dados,id:userId};
       await sb("POST","usuarios",payload).catch(()=>sb("PATCH",`usuarios?id=eq.${userId}`,dados));
       setPerfil(payload);
+    }catch{}
+    setTela("bemestar");
+  }
+
+  async function handleRetorno({adesao,sentiu}){
+    // Salvar dados de retorno no Supabase
+    try{
+      await sb("POST","retornos",{usuario_id:userId,adesao,sentiu,data_retorno:new Date().toISOString()});
     }catch{}
     setTela("bemestar");
   }
@@ -839,38 +932,36 @@ export default function App(){
       setDiagnostico(diag);
       if(sessaoId)await sb("PATCH",`sessoes?id=eq.${sessaoId}`,{diagnostico:diag}).catch(()=>{});
     }catch{
-      setDiagnostico("Não foi possível gerar o diagnóstico personalizado no momento. Seus dados foram salvos com sucesso.");
+      setDiagnostico("Não foi possível gerar o diagnóstico no momento. Seus dados foram salvos.");
     }
   }
 
   function handleRetestar(){setRespostas({});setPergAtual(0);setResultadoSOC(null);setDiagnostico(null);setTela("bemestar");}
-
-  const showHeader = !["inicio","como"].includes(tela);
 
   return <>
     <style>{CSS}</style>
     <div>
       <header className="hdr">
         <div className="hdr-brand">
-          <span className="hdr-icon">🩺</span>
-          <span className="hdr-name">Coerên<span>CIA</span></span>
+          <span style={{fontSize:"1.1rem"}}>🩺</span>
+          <span className="hdr-logo">Coerên<span>CIA</span></span>
         </div>
         {tela!=="admin"&&<button className="hdr-btn" onClick={()=>setTela("admin")}>Painel admin</button>}
       </header>
-
       <div className="main">
-        {erro&&<div className="alert ae" style={{margin:"1rem 1.25rem"}}>⚠️ {erro}<button style={{marginLeft:".5rem",background:"none",border:"none",cursor:"pointer",fontWeight:700}} onClick={()=>setErro("")}>✕</button></div>}
+        {erro&&<div className="alert ae" style={{margin:"1rem 1.25rem"}}>⚠️ {erro} <button style={{marginLeft:".4rem",background:"none",border:"none",cursor:"pointer",fontWeight:700}} onClick={()=>setErro("")}>✕</button></div>}
         {loading&&<div className="spin"/>}
-
         {!loading&&tela==="inicio"&&<TelaInicio onIniciar={()=>setTela("identificacao")} onComoFunciona={()=>setTela("como")}/>}
         {!loading&&tela==="como"&&<TelaComoFunciona onVoltar={()=>setTela("inicio")} onIniciar={()=>setTela("identificacao")}/>}
         {!loading&&tela==="identificacao"&&<TelaIdentificacao onIdentify={handleIdentify}/>}
         {!loading&&tela==="tcle"&&<TelaTCLE onConsentir={handleConsentir} onRecusar={()=>setTela("inicio")}/>}
         {!loading&&tela==="perfil"&&<TelaPerfil onSalvar={handleSalvarPerfil}/>}
+        {!loading&&tela==="retorno"&&<TelaRetorno onContinuar={handleRetorno}/>}
         {!loading&&tela==="bemestar"&&<TelaBemestar onSalvar={v=>{setBemestarAtual(v);setTela("soc");}}/>}
         {!loading&&tela==="soc"&&<TelaSOC respostas={respostas} pergAtual={pergAtual} onChange={(n,v)=>setRespostas(r=>({...r,[n]:v}))} onNext={()=>{if(pergAtual<12)setPergAtual(p=>p+1);else handleFinalizarSOC();}} onPrev={()=>setPergAtual(p=>p-1)}/>}
-        {tela==="resultado"&&resultadoSOC&&<TelaResultado soc={resultadoSOC} diagnostico={diagnostico} bemestar={bemestarAtual} historico={historico} onRetestar={handleRetestar} onFeedback={()=>setTela("feedback")}/>}
-        {tela==="feedback"&&<TelaFeedback onSalvar={()=>setTela("inicio")} onPular={()=>setTela("inicio")}/>}
+        {tela==="resultado"&&resultadoSOC&&<TelaResultado soc={resultadoSOC} socAnterior={socAnterior} diagnostico={diagnostico} historico={historico} onRetestar={handleRetestar} onFeedback={()=>setTela("feedback")}/>}
+        {tela==="feedback"&&<TelaFeedback onSalvar={()=>setTela("agradecimento")} onPular={()=>setTela("agradecimento")}/>}
+        {tela==="agradecimento"&&<TelaAgradecimento onVoltar={()=>setTela("inicio")}/>}
         {tela==="admin"&&<TelaAdmin onVoltar={()=>setTela("inicio")}/>}
       </div>
     </div>
