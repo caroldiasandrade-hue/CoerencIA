@@ -752,7 +752,7 @@ function TelaResultado({soc,socAnterior,diagnostico,historico,onRetestar,onFeedb
     </div>}
 
     <div style={{padding:"0 1.25rem 1rem",display:"flex",flexDirection:"column",gap:".45rem"}}>
-      <button className="btn btn-s btn-full" onClick={onFeedback}>⭐ Avaliar o aplicativo</button>
+      <button className="btn btn-s btn-full" onClick={onFeedback}>{isRetorno?"⭐ Avaliar o aplicativo":"Encerrar →"}</button>
       {!isRetorno&&<button className="btn btn-p btn-full" onClick={onRetestar}>↺ Refazer avaliação</button>}
       {isRetorno&&<button className="btn btn-p btn-full" onClick={onFeedback}>Encerrar participação →</button>}
     </div>
@@ -775,31 +775,162 @@ function TelaAgradecimento({onVoltar}){
   </div>;
 }
 
-function TelaFeedback({onSalvar,onPular}){
-  const [nota,setNota]=useState(0);const [hover,setHover]=useState(0);const [texto,setTexto]=useState("");const [ajudou,setAjudou]=useState("");const [salvo,setSalvo]=useState(false);
-  async function go(){
-    if(!nota){alert("Selecione uma nota em estrelas.");return;}
-    try{await sb("POST","feedbacks",{nota,texto,ajudou,criado_em:new Date().toISOString()});}catch{}
-    setSalvo(true);setTimeout(()=>onSalvar(),1600);
+// SUS — 10 questões validadas em português (Tenório et al., 2010)
+const SUS_QUESTOES = [
+  "Eu gostaria de usar este aplicativo com frequência.",
+  "Achei o aplicativo desnecessariamente complexo.",
+  "Achei o aplicativo fácil de usar.",
+  "Acho que precisaria de suporte técnico para usar este aplicativo.",
+  "As funcionalidades do aplicativo estão bem integradas.",
+  "Achei que havia muita inconsistência neste aplicativo.",
+  "Acredito que a maioria das pessoas aprenderia a usar este aplicativo rapidamente.",
+  "Achei o aplicativo muito difícil de navegar.",
+  "Me senti muito confiante usando o aplicativo.",
+  "Precisei aprender muitas coisas antes de conseguir usar o aplicativo.",
+];
+
+// TAM — 8 questões adaptadas para contexto de saúde/bem-estar
+const TAM_QUESTOES = [
+  "Usar este aplicativo melhora minha capacidade de cuidar do meu bem-estar.",
+  "Usar este aplicativo é útil para minha saúde e qualidade de vida no trabalho.",
+  "Usar este aplicativo aumenta minha consciência sobre meu estado emocional.",
+  "Aprender a usar este aplicativo foi fácil para mim.",
+  "A interação com este aplicativo é clara e compreensível.",
+  "Foi fácil para mim me tornar habilidoso no uso deste aplicativo.",
+  "Pretendo recomendar este aplicativo a colegas da área da saúde.",
+  "Recomendaria este aplicativo a colegas e outros profissionais de enfermagem.",
+];
+
+function TelaFeedback({onSalvar,onPular,userId}){
+  const [passo,setPasso]=useState(1);
+  const [sus,setSus]=useState({});
+  const [tam,setTam]=useState({});
+  const [gostou,setGostou]=useState("");
+  const [melhorar,setMelhorar]=useState("");
+  const [salvo,setSalvo]=useState(false);
+  const [err,setErr]=useState("");
+
+  const totalPassos=3;
+  const prog=(passo/totalPassos)*100;
+
+  function setSusR(i,v){setSus(p=>({...p,[i]:v}));}
+  function setTamR(i,v){setTam(p=>({...p,[i]:v}));}
+
+  function avancar(){
+    if(passo===1){
+      if(SUS_QUESTOES.some((_,i)=>!sus[i])){setErr("Responda todas as questões antes de continuar.");return;}
+    }
+    if(passo===2){
+      if(TAM_QUESTOES.some((_,i)=>!tam[i])){setErr("Responda todas as questões antes de continuar.");return;}
+    }
+    setErr("");
+    setPasso(p=>p+1);
+    window.scrollTo(0,0);
   }
+
+  async function enviar(){
+    setErr("");
+    // Calcular escore SUS: itens ímpares (0,2,4,6,8): score-1; pares (1,3,5,7,9): 5-score; soma*2.5
+    const susScore = (
+      [0,2,4,6,8].reduce((s,i)=>s+(sus[i]-1),0) +
+      [1,3,5,7,9].reduce((s,i)=>s+(5-sus[i]),0)
+    ) * 2.5;
+
+    // Calcular escore TAM: média simples
+    const tamScore = Object.values(tam).reduce((a,b)=>a+b,0)/TAM_QUESTOES.length;
+
+    try{
+      await sb("POST","avaliacoes_app",{
+        usuario_id: userId,
+        sus_1:sus[0],sus_2:sus[1],sus_3:sus[2],sus_4:sus[3],sus_5:sus[4],
+        sus_6:sus[5],sus_7:sus[6],sus_8:sus[7],sus_9:sus[8],sus_10:sus[9],
+        sus_score: Math.round(susScore),
+        tam_1:tam[0],tam_2:tam[1],tam_3:tam[2],tam_4:tam[3],
+        tam_5:tam[4],tam_6:tam[5],tam_7:tam[6],tam_8:tam[7],
+        tam_score_medio: Math.round(tamScore*10)/10,
+        comentario_gostou: gostou,
+        comentario_melhorar: melhorar,
+        criado_em: new Date().toISOString(),
+      });
+    }catch(e){console.error(e);}
+    setSalvo(true);
+    setTimeout(()=>onSalvar(),1800);
+  }
+
   if(salvo)return <div className="card" style={{textAlign:"center",padding:"2rem"}}>
     <div style={{fontSize:"2.4rem",marginBottom:".45rem"}}>🙏</div>
-    <h2 className="card-title">Obrigada!</h2>
-    <p className="card-body">Sua avaliação foi registrada.</p>
+    <h2 className="card-title">Obrigada pela avaliação!</h2>
+    <p className="card-body">Sua resposta foi registrada e contribuirá com a pesquisa.</p>
   </div>;
-  return <div className="card">
-    <div className="eyebrow">Sua opinião importa</div>
-    <h2 className="card-title">Avalie o CoerêncIA</h2>
-    <p className="card-body">Como foi sua experiência?</p>
-    <div style={{fontSize:".72rem",fontWeight:600,color:"var(--g7)",marginBottom:".28rem"}}>Nota geral</div>
-    <div className="stars">
-      {[1,2,3,4,5].map(s=><span key={s} className={`star${s<=(hover||nota)?" on":""}`} onClick={()=>setNota(s)} onMouseEnter={()=>setHover(s)} onMouseLeave={()=>setHover(0)}>{s<=(hover||nota)?"⭐":"☆"}</span>)}
+
+  function QuestaoLikert({num,texto,valor,onChange}){
+    return <div style={{marginBottom:"1.25rem"}}>
+      <p style={{fontSize:".85rem",fontWeight:600,color:"var(--g9)",lineHeight:1.5,marginBottom:".55rem"}}>{num}. {texto}</p>
+      <div style={{display:"flex",gap:".3rem"}}>
+        {[1,2,3,4,5].map(v=><button key={v} onClick={()=>onChange(v)} style={{
+          flex:1,height:"44px",borderRadius:"10px",
+          border:`1.5px solid ${valor===v?"var(--sky)":"var(--g3)"}`,
+          background:valor===v?"var(--navy)":"white",
+          color:valor===v?"white":"var(--g5)",
+          fontWeight:700,fontSize:".9rem",cursor:"pointer",fontFamily:"inherit",
+          transition:"all .12s"
+        }}>{v}</button>)}
+      </div>
+      <div style={{display:"flex",justifyContent:"space-between",fontSize:".62rem",color:"var(--g5)",marginTop:".2rem"}}><span>Discordo totalmente</span><span>Concordo totalmente</span></div>
+    </div>;
+  }
+
+  return <div style={{margin:"1rem 1.25rem"}}>
+    {/* Header */}
+    <div style={{background:"white",borderRadius:"15px",padding:"1.2rem 1.35rem",marginBottom:".75rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
+      <div style={{display:"flex",alignItems:"center",gap:".5rem",marginBottom:".75rem"}}>
+        <span style={{fontSize:"1.2rem"}}>⭐</span>
+        <h2 style={{fontSize:"1rem",fontWeight:800,letterSpacing:"-.02em"}}>Avalie o CoerênCIA</h2>
+      </div>
+      {/* Barra de progresso em 3 segmentos */}
+      <div style={{display:"flex",gap:".3rem",marginBottom:".5rem"}}>
+        {[1,2,3].map(p=><div key={p} style={{flex:1,height:"4px",borderRadius:"2px",background:p<=passo?"var(--sky)":"var(--g3)",transition:"background .3s"}}/>)}
+      </div>
+      <div style={{fontSize:".7rem",color:"var(--g5)"}}>Passo {passo} de {totalPassos}</div>
     </div>
-    <Campo label="O aplicativo te ajudou?"><Sel value={ajudou} onChange={setAjudou} opts={["Sim, muito","Sim, um pouco","Neutro","Não muito","Não"]}/></Campo>
-    <Campo label="Comentários (opcional)"><textarea className="fb-ta" value={texto} onChange={e=>setTexto(e.target.value)} placeholder="O que achou? O que poderia melhorar?"/></Campo>
-    <div className="btn-row">
-      <button className="btn btn-s" onClick={onPular}>Pular</button>
-      <button className="btn btn-p" onClick={go}>Enviar →</button>
+
+    {err&&<div className="alert ae" style={{margin:"0 0 .75rem"}}>{err}</div>}
+
+    {/* PASSO 1 — SUS */}
+    {passo===1&&<div style={{background:"white",borderRadius:"15px",padding:"1.35rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
+      <div style={{fontSize:".63rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--sky)",marginBottom:".2rem"}}>Usabilidade — SUS</div>
+      <p style={{fontSize:".78rem",color:"var(--g5)",marginBottom:"1.25rem",lineHeight:1.5}}>Para cada afirmação, indique seu grau de concordância de 1 (Discordo totalmente) a 5 (Concordo totalmente).</p>
+      {SUS_QUESTOES.map((q,i)=><QuestaoLikert key={i} num={i+1} texto={q} valor={sus[i]} onChange={v=>setSusR(i,v)}/>)}
+    </div>}
+
+    {/* PASSO 2 — TAM */}
+    {passo===2&&<div style={{background:"white",borderRadius:"15px",padding:"1.35rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
+      <div style={{fontSize:".63rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--sky)",marginBottom:".2rem"}}>Aceitação da Tecnologia — TAM</div>
+      <p style={{fontSize:".78rem",color:"var(--g5)",marginBottom:"1.25rem",lineHeight:1.5}}>Avalie de 1 (Discordo totalmente) a 5 (Concordo totalmente).</p>
+      {TAM_QUESTOES.map((q,i)=><QuestaoLikert key={i} num={i+1} texto={q} valor={tam[i]} onChange={v=>setTamR(i,v)}/>)}
+    </div>}
+
+    {/* PASSO 3 — Comentários livres */}
+    {passo===3&&<div style={{background:"white",borderRadius:"15px",padding:"1.35rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
+      <div style={{fontSize:".63rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--sky)",marginBottom:".2rem"}}>Comentários livres</div>
+      <div style={{marginBottom:"1.1rem"}}>
+        <p style={{fontSize:".85rem",fontWeight:600,marginBottom:".4rem"}}>O que você mais gostou no aplicativo?</p>
+        <textarea className="fb-ta" value={gostou} onChange={e=>setGostou(e.target.value)} placeholder="Conte sua experiência..."/>
+      </div>
+      <div>
+        <p style={{fontSize:".85rem",fontWeight:600,marginBottom:".4rem"}}>O que poderia melhorar?</p>
+        <textarea className="fb-ta" value={melhorar} onChange={e=>setMelhorar(e.target.value)} placeholder="Sugestões são muito bem-vindas..."/>
+      </div>
+    </div>}
+
+    {/* Navegação */}
+    <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:".75rem",padding:".75rem 0"}}>
+      <div style={{fontSize:".72rem",color:"var(--g5)"}}>Passo {passo} de {totalPassos}</div>
+      <div style={{display:"flex",gap:".5rem"}}>
+        {passo>1&&<button className="btn btn-s" onClick={()=>{setPasso(p=>p-1);window.scrollTo(0,0);}}>← Voltar</button>}
+        {passo<3&&<button className="btn btn-p" onClick={avancar}>Próximo →</button>}
+        {passo===3&&<button className="btn btn-p" onClick={enviar}>Enviar avaliação ✓</button>}
+      </div>
     </div>
   </div>;
 }
@@ -968,7 +1099,7 @@ export default function App(){
       <header className="hdr">
         <div style={{display:"flex",alignItems:"center",gap:".4rem"}}>
           <span style={{fontSize:"1.05rem"}}>🩺</span>
-          <span className="logo">CoerênC<span className="logo-ia">IA</span></span>
+          <span style={{fontFamily:"inherit",fontWeight:800,fontSize:"1.2rem",color:"white",letterSpacing:"-.02em"}}>CoerênC<span style={{color:"#2979D0"}}>IA</span></span>
         </div>
         {tela!=="admin"&&<button className="hdr-adm" onClick={()=>setTela("admin")}>Painel admin</button>}
       </header>
@@ -983,8 +1114,8 @@ export default function App(){
         {!loading&&tela==="retorno"&&<TelaRetorno onContinuar={handleRetorno}/>}
         {!loading&&tela==="bemestar"&&<TelaBemestar onSalvar={v=>{setBemestarAtual(v);setTela("soc");}}/>}
         {!loading&&tela==="soc"&&<TelaSOC respostas={respostas} pergAtual={pergAtual} onChange={(n,v)=>setRespostas(r=>({...r,[n]:v}))} onNext={()=>{if(pergAtual<12)setPergAtual(p=>p+1);else handleFinalizarSOC();}} onPrev={()=>setPergAtual(p=>p-1)}/>}
-        {tela==="resultado"&&resultadoSOC&&<TelaResultado soc={resultadoSOC} socAnterior={socAnterior} diagnostico={diagnostico} historico={historico} onRetestar={handleRetestar} onFeedback={()=>setTela("feedback")} isRetorno={!!socAnterior}/>}
-        {tela==="feedback"&&<TelaFeedback onSalvar={()=>setTela("agradecimento")} onPular={()=>setTela("agradecimento")}/>}
+        {tela==="resultado"&&resultadoSOC&&<TelaResultado soc={resultadoSOC} socAnterior={socAnterior} diagnostico={diagnostico} historico={historico} onRetestar={handleRetestar} onFeedback={()=>socAnterior?setTela("feedback"):setTela("agradecimento")} isRetorno={!!socAnterior}/>}
+        {tela==="feedback"&&<TelaFeedback onSalvar={()=>setTela("agradecimento")} onPular={()=>setTela("agradecimento")} userId={userId}/>}
         {tela==="agradecimento"&&<TelaAgradecimento onVoltar={()=>setTela("inicio")}/>}
         {tela==="admin"&&<TelaAdmin onVoltar={()=>setTela("inicio")}/>}
       </div>
