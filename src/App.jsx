@@ -500,7 +500,7 @@ function TelaComoFunciona({onVoltar,onIniciar}){
   </>;
 }
 
-function TelaIdentificacao({onIdentify}){
+function TelaIdentificacao({onIdentify, onVoltar}){
   const [nome,setNome]=useState("");const [nasc,setNasc]=useState("");const [loading,setLoading]=useState(false);const [err,setErr]=useState("");
   async function go(){
     if(!nome.trim()||!nasc){setErr("Preencha nome e data de nascimento.");return;}
@@ -516,7 +516,10 @@ function TelaIdentificacao({onIdentify}){
     <Campo label="Nome completo"><input value={nome} onChange={e=>setNome(e.target.value)} placeholder="Apenas para gerar seu código"/></Campo>
     <Campo label="Data de nascimento"><input type="date" value={nasc} onChange={e=>setNasc(e.target.value)}/></Campo>
     <div className="alert ai">🔒 Seus dados ficam só no seu dispositivo.</div>
-    <div className="btn-row"><button className="btn btn-p" onClick={go} disabled={loading}>{loading?"...":"Continuar →"}</button></div>
+    <div className="btn-row">
+      <button className="btn btn-s" onClick={onVoltar}>← Voltar</button>
+      <button className="btn btn-p" onClick={go} disabled={loading}>{loading?"...":"Continuar →"}</button>
+    </div>
   </div>;
 }
 
@@ -544,7 +547,7 @@ function TelaTCLE({onConsentir,onRecusar}){
   </div>;
 }
 
-function TelaPerfil({onSalvar}){
+function TelaPerfil({onSalvar, onVoltar}){
   const [d,setD]=useState({});const [err,setErr]=useState("");
   const set=(k,v)=>setD(p=>({...p,[k]:v}));
   const obrig=["idade","sexo","identidade","raca","estado_civil","filhos","renda","pessoas_residencia","categoria","tempo_profissao","turno","carga_horaria","funcao","setor","vinculo","tabagismo","alcool"];
@@ -583,11 +586,14 @@ function TelaPerfil({onSalvar}){
       <Campo label="Tabagismo (12 meses)"><Sel value={d.tabagismo} onChange={v=>set("tabagismo",v)} opts={OPT_FREQ}/></Campo>
       <Campo label="Álcool (12 meses)"><Sel value={d.alcool} onChange={v=>set("alcool",v)} opts={OPT_FREQ}/></Campo>
     </div>
-    <div className="btn-row"><button className="btn btn-p" onClick={go}>Salvar e continuar →</button></div>
+    <div className="btn-row">
+      <button className="btn btn-s" onClick={onVoltar}>← Voltar</button>
+      <button className="btn btn-p" onClick={go}>Salvar e continuar →</button>
+    </div>
   </div>;
 }
 
-function TelaBemestar({onSalvar}){
+function TelaBemestar({onSalvar, onVoltar}){
   const [vals,setVals]=useState({});const [err,setErr]=useState("");
   function go(){
     if(DIMS_BW.some(d=>!vals[d.key])){setErr("Avalie todas as dimensões para continuar.");return;}
@@ -606,11 +612,14 @@ function TelaBemestar({onSalvar}){
         </button>)}
       </div>
     </div>)}
-    <div className="btn-row"><button className="btn btn-p" onClick={go}>Continuar →</button></div>
+    <div className="btn-row">
+      <button className="btn btn-s" onClick={onVoltar}>← Voltar</button>
+      <button className="btn btn-p" onClick={go}>Continuar →</button>
+    </div>
   </div>;
 }
 
-function TelaSOC({respostas,onChange,pergAtual,onNext,onPrev}){
+function TelaSOC({respostas,onChange,pergAtual,onNext,onPrev,onVoltarBemestar}){
   const p=SOC_PERGUNTAS[pergAtual];
   const prog=((pergAtual+1)/13)*100;
   return <>
@@ -631,7 +640,10 @@ function TelaSOC({respostas,onChange,pergAtual,onNext,onPrev}){
       </div>
       <div className="soc-anch"><span>1 – {p.min}</span><span>7 – {p.max}</span></div>
       <div className="btn-row">
-        {pergAtual>0&&<button className="btn btn-s" onClick={onPrev}>← Voltar</button>}
+        {pergAtual===0
+          ? <button className="btn btn-s" onClick={onVoltarBemestar}>← Voltar</button>
+          : <button className="btn btn-s" onClick={onPrev}>← Voltar</button>
+        }
         <button className="btn btn-p" disabled={!respostas[p.num]} onClick={onNext}>{pergAtual<12?"Próxima →":"Ver resultado →"}</button>
       </div>
     </div>
@@ -1108,12 +1120,12 @@ export default function App(){
         {loading&&<div className="spin"/>}
         {!loading&&tela==="inicio"&&<TelaInicio onIniciar={()=>setTela("identificacao")} onComoFunciona={()=>setTela("como")}/>}
         {!loading&&tela==="como"&&<TelaComoFunciona onVoltar={()=>setTela("inicio")} onIniciar={()=>setTela("identificacao")}/>}
-        {!loading&&tela==="identificacao"&&<TelaIdentificacao onIdentify={handleIdentify}/>}
+        {!loading&&tela==="identificacao"&&<TelaIdentificacao onIdentify={handleIdentify} onVoltar={()=>setTela("inicio")}/>}
         {!loading&&tela==="tcle"&&<TelaTCLE onConsentir={handleConsentir} onRecusar={()=>setTela("inicio")}/>}
-        {!loading&&tela==="perfil"&&<TelaPerfil onSalvar={handleSalvarPerfil}/>}
+        {!loading&&tela==="perfil"&&<TelaPerfil onSalvar={handleSalvarPerfil} onVoltar={()=>setTela("tcle")}/>}
         {!loading&&tela==="retorno"&&<TelaRetorno onContinuar={handleRetorno}/>}
-        {!loading&&tela==="bemestar"&&<TelaBemestar onSalvar={v=>{setBemestarAtual(v);setTela("soc");}}/>}
-        {!loading&&tela==="soc"&&<TelaSOC respostas={respostas} pergAtual={pergAtual} onChange={(n,v)=>setRespostas(r=>({...r,[n]:v}))} onNext={()=>{if(pergAtual<12)setPergAtual(p=>p+1);else handleFinalizarSOC();}} onPrev={()=>setPergAtual(p=>p-1)}/>}
+        {!loading&&tela==="bemestar"&&<TelaBemestar onSalvar={v=>{setBemestarAtual(v);setTela("soc");}} onVoltar={()=>primeiroAcesso?setTela("perfil"):setTela("retorno")}/>}
+        {!loading&&tela==="soc"&&<TelaSOC respostas={respostas} pergAtual={pergAtual} onChange={(n,v)=>setRespostas(r=>({...r,[n]:v}))} onNext={()=>{if(pergAtual<12)setPergAtual(p=>p+1);else handleFinalizarSOC();}} onPrev={()=>setPergAtual(p=>p-1)} onVoltarBemestar={()=>setTela("bemestar")}/>}
         {tela==="resultado"&&resultadoSOC&&<TelaResultado soc={resultadoSOC} socAnterior={socAnterior} diagnostico={diagnostico} historico={historico} onRetestar={handleRetestar} onFeedback={()=>socAnterior?setTela("feedback"):setTela("agradecimento")} isRetorno={!!socAnterior}/>}
         {tela==="feedback"&&<TelaFeedback onSalvar={()=>setTela("agradecimento")} onPular={()=>setTela("agradecimento")} userId={userId}/>}
         {tela==="agradecimento"&&<TelaAgradecimento onVoltar={()=>setTela("inicio")}/>}
