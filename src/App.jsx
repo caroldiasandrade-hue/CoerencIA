@@ -426,9 +426,16 @@ function VideoModal({onClose}){
         <h3 style={{fontSize:".88rem",fontWeight:700}}>🎬 O que é Senso de Coerência?</h3>
         <button onClick={onClose} style={{background:"none",border:"none",fontSize:"1rem",cursor:"pointer",color:"var(--g5)"}}>✕</button>
       </div>
-      <div style={{background:"linear-gradient(135deg,var(--navy),#1a3a6b)",borderRadius:"9px",aspectRatio:"16/9",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center",gap:".6rem",cursor:"pointer"}} onClick={()=>alert("Vídeo em produção — em breve disponível no YouTube!")}>
-        <div style={{width:"48px",height:"48px",background:"rgba(255,255,255,.9)",borderRadius:"50%",display:"flex",alignItems:"center",justifyContent:"center",fontSize:"1.2rem"}}>▶</div>
-        <p style={{color:"rgba(255,255,255,.72)",fontSize:".75rem",textAlign:"center",padding:"0 1rem"}}>Vídeo explicativo · <strong style={{color:"white"}}>Em breve</strong></p>
+      <div style={{borderRadius:"9px",overflow:"hidden",aspectRatio:"16/9"}}>
+        <iframe
+          width="100%" height="100%"
+          src="https://www.youtube.com/embed/JCh6ryDreu0"
+          title="O que é Senso de Coerência?"
+          frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowFullScreen
+          style={{display:"block"}}
+        />
       </div>
       <p style={{fontSize:".7rem",color:"var(--g5)",textAlign:"center",marginTop:".6rem"}}>📌 Assista antes de responder para entender melhor o que avaliamos.</p>
       <button className="btn btn-p btn-full" onClick={onClose} style={{marginTop:".7rem"}}>Entendido →</button>
