@@ -82,15 +82,6 @@ const REFS = {
 };
 
 // ─── INTERVENÇÕES PADRONIZADAS POR DIMENSÃO ───────────────────────────────────
-// Compreensibilidade: "Eu entendo o que está acontecendo."
-// → Foco: acesso à informação, rotinas, clareza, aprendizado, interpretação de situações
-
-// Maneabilidade: "Eu tenho recursos para lidar com isso."
-// → Foco: apoio social, autoeficácia, recursos internos e externos, autoconhecimento
-
-// Significância: "Vale a pena enfrentar isso."
-// → Foco: propósito, pertencimento, valores, reconhecimento, contribuição
-
 const INTERVENCOES = {
   compreensibilidade: [
     {
@@ -449,8 +440,8 @@ function TelaInicio({onIniciar,onComoFunciona}){
     {video&&<VideoModal onClose={()=>setVideo(false)}/>}
     <div className="hero">
       <div className="hero-badge">🩺 Para enfermeiros</div>
-      <h1 className="hero-title">CoerênC<em>IA</em></h1>
-      <p className="hero-sub">Avalie seu bem-estar e receba estratégias personalizadas baseadas em evidências científicas.</p>
+      <h1 className="hero-title">Coerênc<em>IA</em></h1>
+      <p className="hero-sub">Avalie seu bem-estar e receba estratégias personalizadas baseadas em evidências científicas para fortalecer o seu senso de coerência.</p>
       <div className="hero-btns">
         <button className="btn-hp" onClick={onIniciar}>Participar agora</button>
         <button className="btn-hs" onClick={onComoFunciona}>Como funciona</button>
@@ -849,13 +840,11 @@ function TelaFeedback({onSalvar,onPular,userId}){
 
   async function enviar(){
     setErr("");
-    // Calcular escore SUS: itens ímpares (0,2,4,6,8): score-1; pares (1,3,5,7,9): 5-score; soma*2.5
     const susScore = (
       [0,2,4,6,8].reduce((s,i)=>s+(sus[i]-1),0) +
       [1,3,5,7,9].reduce((s,i)=>s+(5-sus[i]),0)
     ) * 2.5;
 
-    // Calcular escore TAM: média simples
     const tamScore = Object.values(tam).reduce((a,b)=>a+b,0)/TAM_QUESTOES.length;
 
     try{
@@ -900,13 +889,11 @@ function TelaFeedback({onSalvar,onPular,userId}){
   }
 
   return <div style={{margin:"1rem 1.25rem"}}>
-    {/* Header */}
     <div style={{background:"white",borderRadius:"15px",padding:"1.2rem 1.35rem",marginBottom:".75rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
       <div style={{display:"flex",alignItems:"center",gap:".5rem",marginBottom:".75rem"}}>
         <span style={{fontSize:"1.2rem"}}>⭐</span>
-        <h2 style={{fontSize:"1rem",fontWeight:800,letterSpacing:"-.02em"}}>Avalie o CoerênCIA</h2>
+        <h2 style={{fontSize:"1rem",fontWeight:800,letterSpacing:"-.02em"}}>Avalie o CoerêncIA</h2>
       </div>
-      {/* Barra de progresso em 3 segmentos */}
       <div style={{display:"flex",gap:".3rem",marginBottom:".5rem"}}>
         {[1,2,3].map(p=><div key={p} style={{flex:1,height:"4px",borderRadius:"2px",background:p<=passo?"var(--sky)":"var(--g3)",transition:"background .3s"}}/>)}
       </div>
@@ -915,21 +902,18 @@ function TelaFeedback({onSalvar,onPular,userId}){
 
     {err&&<div className="alert ae" style={{margin:"0 0 .75rem"}}>{err}</div>}
 
-    {/* PASSO 1 — SUS */}
     {passo===1&&<div style={{background:"white",borderRadius:"15px",padding:"1.35rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
       <div style={{fontSize:".63rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--sky)",marginBottom:".2rem"}}>Usabilidade — SUS</div>
       <p style={{fontSize:".78rem",color:"var(--g5)",marginBottom:"1.25rem",lineHeight:1.5}}>Para cada afirmação, indique seu grau de concordância de 1 (Discordo totalmente) a 5 (Concordo totalmente).</p>
       {SUS_QUESTOES.map((q,i)=><QuestaoLikert key={i} num={i+1} texto={q} valor={sus[i]} onChange={v=>setSusR(i,v)}/>)}
     </div>}
 
-    {/* PASSO 2 — TAM */}
     {passo===2&&<div style={{background:"white",borderRadius:"15px",padding:"1.35rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
       <div style={{fontSize:".63rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--sky)",marginBottom:".2rem"}}>Aceitação da Tecnologia — TAM</div>
       <p style={{fontSize:".78rem",color:"var(--g5)",marginBottom:"1.25rem",lineHeight:1.5}}>Avalie de 1 (Discordo totalmente) a 5 (Concordo totalmente).</p>
       {TAM_QUESTOES.map((q,i)=><QuestaoLikert key={i} num={i+1} texto={q} valor={tam[i]} onChange={v=>setTamR(i,v)}/>)}
     </div>}
 
-    {/* PASSO 3 — Comentários livres */}
     {passo===3&&<div style={{background:"white",borderRadius:"15px",padding:"1.35rem",boxShadow:"0 1px 3px rgba(0,0,0,.07)"}}>
       <div style={{fontSize:".63rem",fontWeight:700,letterSpacing:".08em",textTransform:"uppercase",color:"var(--sky)",marginBottom:".2rem"}}>Comentários livres</div>
       <div style={{marginBottom:"1.1rem"}}>
@@ -942,7 +926,6 @@ function TelaFeedback({onSalvar,onPular,userId}){
       </div>
     </div>}
 
-    {/* Navegação */}
     <div style={{display:"flex",justifyContent:"space-between",alignItems:"center",marginTop:".75rem",padding:".75rem 0"}}>
       <div style={{fontSize:".72rem",color:"var(--g5)"}}>Passo {passo} de {totalPassos}</div>
       <div style={{display:"flex",gap:".5rem"}}>
@@ -1118,7 +1101,7 @@ export default function App(){
       <header className="hdr">
         <div style={{display:"flex",alignItems:"center",gap:".4rem"}}>
           <span style={{fontSize:"1.05rem"}}>🩺</span>
-          <span style={{fontFamily:"inherit",fontWeight:800,fontSize:"1.2rem",color:"white",letterSpacing:"-.02em"}}>CoerênC<span style={{color:"#2979D0"}}>IA</span></span>
+          <span style={{fontFamily:"inherit",fontWeight:800,fontSize:"1.2rem",color:"white",letterSpacing:"-.02em"}}>Coerênc<span style={{color:"#2979D0"}}>IA</span></span>
         </div>
         {tela!=="admin"&&<button className="hdr-adm" onClick={()=>setTela("admin")}>Painel admin</button>}
       </header>
